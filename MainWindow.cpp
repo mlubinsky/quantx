@@ -157,8 +157,7 @@ void MainWindow::initMenuBar()
      connect(taskAction, SIGNAL(triggered()), this, SLOT(helpTasks()));
      fileMenu->addAction(taskAction);
 
-     aboutAction = new QAction(tr("&� ���������"),this);
-//     aboutAction->setStatuslTip(tr("�������� � ���������"));
+     aboutAction = new QAction(tr("&About"), this);
      connect(aboutAction, SIGNAL(triggered()), this, SLOT(about()));
      fileMenu->addAction(aboutAction);
      fileMenu->addSeparator();
@@ -168,12 +167,12 @@ void MainWindow::initMenuBar()
 //     chooseFontAction->setShortcut(tr("Ctrl+F"));
 //     connect(chooseFontAction, SIGNAL(triggered()), this, SLOT(chooseFont()));
 
-     QMenu *uMenu = menuBar()->addMenu(tr("����������"));
-     uMenu->setFont(font);//setFont(QFont("Serif", 12, QFont::Bold ));
-     QAction *uTable = new QAction(tr("���������"), uMenu);
-     QAction *uLinear = new QAction(tr("��������"),uMenu);
-     QAction *uParabolic = new QAction(tr("��������������"),uMenu);
-     QAction *uCh2x = new QAction(tr("U_0/ch^2(x/a)"),uMenu);
+     QMenu *uMenu = menuBar()->addMenu("Potential U(x)");
+     uMenu->setFont(font);
+     QAction *uTable = new QAction(tr("Step-wise"), uMenu);
+     QAction *uLinear = new QAction(tr("Linear"), uMenu);
+     QAction *uParabolic = new QAction(tr("Parabolic"), uMenu);
+     QAction *uCh2x = new QAction(tr("U_0/ch^2(x/a)"), uMenu);
      uMenu->addAction(uTable);
      uMenu->addSeparator();
      uMenu->addSeparator();
@@ -188,8 +187,8 @@ void MainWindow::initMenuBar()
      connect(uLinear, SIGNAL(triggered()), this, SLOT(slotSetUlinear()));
      connect(uCh2x, SIGNAL(triggered()), this, SLOT(slotSetUCh2x()));
 
-     QMenu *wMenu = menuBar()->addMenu(tr("�����������"));
-     wMenu->setWhatsThis(tr("�������� �������� �����"));
+     QMenu *wMenu = menuBar()->addMenu("Graphs");
+     wMenu->setWhatsThis("Boundary conditions for the model");
      wMenu->setFont(font);
      QString psi=QChar(0x03C8);
      QString Psi=QChar(0x03A8);
@@ -207,53 +206,52 @@ void MainWindow::initMenuBar()
      Uaction = new QAction("U(x) && En", this);
      wMenu->addAction(Uaction);
      wMenu->addSeparator();
-     Uaction->setStatusTip(tr("������ ������� � ���������� U(x)"));
+     Uaction->setStatusTip("Graph of potential and levels U(x)");
 
      QAction *mPsinX = new QAction(psinofx, this);
      wMenu->addAction(mPsinX);
      wMenu->addSeparator();
-     mPsinX->setStatusTip(tr("�������� ������� ��� ������� �������"));
+     mPsinX->setStatusTip("Wave functions for energy levels");
 //     mPsinX->setStatusTip(tr("Wave functions for energy levels"));
      QAction *mPhinK = new QAction(mod_phinofk, this);
      wMenu->addAction(mPhinK);
      wMenu->addSeparator();
-     mPhinK->setStatusTip(tr("���������� ������������� ��� ������� �������"));
+     mPhinK->setStatusTip("Momentum distributions for energy levels");
 //     mPhinK->setStatusTip(tr("Momentum distributions for energy levels"));
      QAction *mPsiXT = new QAction(Psi+"(x,t)", this);
      wMenu->addAction(mPsiXT);
      wMenu->addSeparator();
-     mPsiXT->setStatusTip(tr("��������� �������� ��������� ������: ������������ �������������"));
+     mPsiXT->setStatusTip("Coordinate distribution: time development of wave packet");
 //     mPsiXT->setStatusTip(tr("Coordinate distribution: time development of wave packet"));
      QAction *mPhiKT = new QAction(mod_Phinofkt, this);
      wMenu->addAction(mPhiKT);
      wMenu->addSeparator();
 
-     mPsiXT->setStatusTip(tr("��������� �������� ��������� ������: ���������� �������������"));
-//     mPhiKT->setStatusTip(tr("Momentum distribution: time development of wave packet"));
+     mPhiKT->setStatusTip("Momentum distribution: time development of wave packet");
      QAction *mTE = new QAction(tr("T(E)"), this);
      wMenu->addAction(mTE);
      wMenu->addSeparator();
-     mTE->setStatusTip(tr("����������� ����������� � ����������� �� �������"));
+     mTE->setStatusTip("Transmission coefficient vs energy");
 
 /*     QAction *mTZ = new QAction(tr("T(z)"), this);
-     mTZ->setStatusTip(tr("����������� ����������� � ����������� �� z"));
+     mTZ->setStatusTip("Transmission coefficient vs z");
      wMenu->addAction(mTZ);
      wMenu->addSeparator();
 
      QAction *mEnz = new QAction(tr("Enz"), this);
      wMenu->addAction(mEnz);
      wMenu->addSeparator();
-     mEnz->setStatusTip(tr("������ ������� ��� ������� ���������� ���������� z"));
+     mEnz->setStatusTip("Energy levels vs parameter z");
 
      QAction *mQE = new QAction(tr("qa(E)"), this);
      wMenu->addAction(mQE);
      wMenu->addSeparator();
-     mQE->setStatusTip(tr("����� ��������� � ������������� ����"));
+     mQE->setStatusTip("Quasi-levels in complex potential");
 
      QAction *mEG = new QAction(tr("B_{N+1}(E+iG)"), this);
      wMenu->addAction(mEG);
      wMenu->addSeparator();
-     mEG->setStatusTip(tr("����������������� ����. �� ��. E+iG, ���� Re � Im B_{N+1}" ));
+     mEG->setStatusTip("Resonance levels E+iG, Re and Im B_{N+1}");
 */
      connect(Uaction, SIGNAL(triggered()), this, SLOT(window_Ux()));
      connect(mPsinX, SIGNAL(triggered()), this, SLOT(window_psi_x()));
@@ -266,28 +264,28 @@ void MainWindow::initMenuBar()
      connect(mQE, SIGNAL(triggered()), this, SLOT(window_QE()));
      connect(mEG, SIGNAL(triggered()), this, SLOT(window_EG()));
 */
-     QMenu *adMenu = menuBar()->addMenu(tr("���. �����������"));
-     adMenu->setWhatsThis(tr("Additional dependences"));
+     QMenu *adMenu = menuBar()->addMenu("Additional");
+     adMenu->setWhatsThis("Additional dependences");
      adMenu->setFont(font);
      QAction *mTZ = new QAction(tr("T(z)"), this);
-     mTZ->setStatusTip(tr("����������� ����������� � ����������� �� z"));
+     mTZ->setStatusTip("Transmission coefficient vs z");
      adMenu->addAction(mTZ);
      adMenu->addSeparator();
 
      QAction *mEnz = new QAction(tr("Enz"), this);
      adMenu->addAction(mEnz);
      adMenu->addSeparator();
-     mEnz->setStatusTip(tr("������ ������� ��� ������� ���������� ���������� z"));
+     mEnz->setStatusTip("Energy levels vs parameter z");
 
      QAction *mQE = new QAction(tr("qa(E)"), this);
      adMenu->addAction(mQE);
      adMenu->addSeparator();
-     mQE->setStatusTip(tr("����� ��������� � ������������� ����"));
+     mQE->setStatusTip("Quasi-levels in complex potential");
 
      QAction *mEG = new QAction(tr("B_{N+1}(E+iG)"), this);
      adMenu->addAction(mEG);
      adMenu->addSeparator();
-     mEG->setStatusTip(tr("����������������� ����. �� ��. E+iG, ���� Re � Im B_{N+1}" ));
+     mEG->setStatusTip("Resonance levels E+iG, Re and Im B_{N+1}");
 
      connect(mTZ, SIGNAL(triggered()), this, SLOT(window_TZ()));
      connect(mEnz, SIGNAL(triggered()), this, SLOT(window_Enz()));
@@ -299,7 +297,7 @@ void MainWindow::initMenuBar()
      addToolBar(bcTool);
      QAction *bcAc = new QAction(tr("Model"), bcTool);
      bcTool->addAction(bcAc);
-     bcAc->setToolTip(tr("��������� �������"));
+     bcAc->setToolTip("Boundary conditions");
      connect(bcAc, SIGNAL(triggered()), this, SLOT(slotSetBD()));
 
      QToolBar *uTool = new QToolBar;
@@ -308,7 +306,7 @@ void MainWindow::initMenuBar()
      QAction *uMulti = new QAction(tr("Un"), uTool);
      uTool->addAction(uMulti);
      uTool->addSeparator();
-     uMulti->setToolTip(tr("��������� �� ���������� ��/��������"));
+     uMulti->setToolTip("Multi-well/barrier potential");
 //     uMulti->setToolTip("Multi-well/barrier potential");
      connect(uMulti, SIGNAL(triggered()), this, SLOT(slotSetUmwb()));
 
@@ -316,7 +314,7 @@ void MainWindow::initMenuBar()
      addToolBar(EnTool);
      QAction *EnAction = new QAction(tr("En"), EnTool);
      EnTool->addAction(EnAction);
-     EnAction->setToolTip(tr("������� ������� ������� En"));
+     EnAction->setToolTip("Values of energy levels En");
 //   EnAction->setToolTip("Values of energy levels En");
      connect(EnAction, SIGNAL(triggered()), this, SLOT(slotSetEn()));
 
@@ -324,7 +322,7 @@ void MainWindow::initMenuBar()
      addToolBar(EquasiTool);
      QAction *EquasiAction = new QAction(tr("(E+iG)n"), EquasiTool);
      EquasiTool->addAction(EquasiAction);
-     EquasiAction->setToolTip(tr("������� ������� ���������. ���������"));
+     EquasiAction->setToolTip("Values of quasi-energy levels");
 //   EnAction->setToolTip("Values of energy levels En");
      connect(EquasiAction, SIGNAL(triggered()), this, SLOT(slotSetEquasi()));
 
@@ -332,7 +330,7 @@ void MainWindow::initMenuBar()
      addToolBar(U1Tool);
      QAction *U1Action = new QAction(tr("U1"), U1Tool);
      U1Tool->addAction(U1Action);
-     U1Action->setToolTip(tr("��������� ���������"));
+     U1Action->setToolTip("Initial potential");
 //     U1Action->setToolTip("Initial Potential");
      connect(U1Action, SIGNAL(triggered()), model, SLOT(slotU1()));
 
@@ -340,7 +338,7 @@ void MainWindow::initMenuBar()
      addToolBar(U2Tool);
      QAction *U2Action = new QAction(tr("U2"), U2Tool);
      U2Tool->addAction(U2Action);
-     U2Action->setToolTip(tr("�������� ���������"));
+     U2Action->setToolTip("Final potential");
 //   U2Action->setToolTip("Final Potential");
      connect(U2Action, SIGNAL(triggered()), model, SLOT(slotU2()));
 
@@ -348,27 +346,27 @@ void MainWindow::initMenuBar()
      addToolBar(ubiasTool);
      QAction *ubiasAc = new QAction(tr("Ubias"), ubiasTool);
      ubiasTool->addAction(ubiasAc);
-     ubiasAc->setToolTip(tr("������� ����������"));
+     ubiasAc->setToolTip("Applied bias voltage");
      connect(ubiasAc, SIGNAL(triggered()), this, SLOT(slotSetUlinear()));
 
      QToolBar *widthLineTool = new QToolBar;
      addToolBar(widthLineTool);
      QAction *widthLineAc = new QAction(tr("Settings"), widthLineTool);
      widthLineTool->addAction(widthLineAc);
-     widthLineAc->setToolTip(tr("������� ����� � ��������"));
+     widthLineAc->setToolTip("Line width in pixels");
      connect(widthLineAc, SIGNAL(triggered()), this, SLOT(slotSetting()));
 }
 #include "Version.h"
 void MainWindow::about()
 {
-    QMessageBox::about(this, tr("� ��������� �����"),
-        tr("<p><b>����� " KVANT_VERSION_STRING "</b></p>"
-        "<p>������� ��������� �� ��������� ��������.</p>" 
-        "<p>������: �.�.��������, �.�.��������, �.�.������</p>"
-        "<p>���� ���������: <a href='http://sourceforge.net/projects/quantx'>"
+    QMessageBox::about(this, "About Kvant",
+        "<p><b>Kvant " KVANT_VERSION_STRING "</b></p>"
+        "<p>Solver of the Schrodinger equation for a piecewise-constant potential.</p>"
+        "<p>Authors: O.Tkachenko, A.Tkachenko, V.Ryzhov</p>"
+        "<p>Project page: <a href='http://sourceforge.net/projects/quantx'>"
         "http://sourceforge.net/projects/quantx</a></p>"
-        "<p>��� ������ ������������ ��������� <a href='http://get.adobe.com/reader/'>Acrobat Reader X</a></p>"
-        ));
+        "<p>PDF documentation requires <a href='http://get.adobe.com/reader/'>Acrobat Reader X</a></p>"
+        );
 }
 
 void MainWindow::chooseFont()

@@ -1497,7 +1497,7 @@ PotentialMovableWidget::PotentialMovableWidget(PhysicalModel *model, QWidget *pa
 
     QVBoxLayout *vl = new QVBoxLayout();
     potentialViewMovable = new PotentialViewMovable(model,this);
-    potentialViewMovable->setWhatsThis(tr("� ���� ���� �� ������ ������������� ��������� � ������ ������ �������. "));
+    potentialViewMovable->setWhatsThis("In this window you can drag potential wells and barriers with the mouse.");
     vl->addWidget(potentialViewMovable);
 /*    QPushButton *help = new QPushButton("Help");
     vl->addWidget(help);

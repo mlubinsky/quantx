@@ -55,3 +55,46 @@ Both were removed in Qt6. Replaced with `QRegularExpression` / `QRegularExpressi
 ### `main.cpp`
 - Removed `#include <QTextCodec>` (class removed in Qt6; the actual usage was already commented out).
 - Replaced `qsrand(QTime(0,0,0).secsTo(QTime::currentTime()))` with `QRandomGenerator::global()->seed(QTime::currentTime().msecsSinceStartOfDay())`.
+
+### Runtime crash fix (`main.cpp`)
+`QRandomGenerator::global()->seed()` is forbidden in Qt6 — the global RNG is OS-seeded and calling `seed()` on it triggers `qFatal()`. Removed the call entirely; the global RNG requires no manual seeding.
+
+### Window title (`main.cpp`)
+Replaced garbled Windows-1251 Russian title with English: `"Solution of the Schroedinger equation for a piecewise-constant potential"`.
+
+## UI string translations (2026-06-11)
+
+The source file encoding was Windows-1251; a prior bad UTF-8 conversion permanently replaced every Russian character with the Unicode replacement character (U+FFFD), making all Russian strings unrecoverable. All affected strings have been replaced with English equivalents.
+
+### `MainWindow.cpp`
+
+| Location | Old (garbled) | New (English) |
+|---|---|---|
+| Menu bar | `Potential U(x)` menu title (Russian) | `"Potential U(x)"` |
+| Potential menu actions | Russian names | `"Step-wise"`, `"Linear"`, `"Parabolic"` |
+| File menu | About action (Russian) | `"&About"` |
+| Menu bar | Graphs menu title (Russian) | `"Graphs"` |
+| Graphs menu | `wMenu->setWhatsThis` | `"Boundary conditions for the model"` |
+| Graphs > U(x)&&En | `setStatusTip` | `"Graph of potential and levels U(x)"` |
+| Graphs > ψ_n(x) | `setStatusTip` | `"Wave functions for energy levels"` |
+| Graphs > \|φ_n(k)\|² | `setStatusTip` | `"Momentum distributions for energy levels"` |
+| Graphs > Ψ(x,t) | `setStatusTip` | `"Coordinate distribution: time development of wave packet"` |
+| Graphs > \|Φ_n(k,t)\|² | `setStatusTip` | `"Momentum distribution: time development of wave packet"` |
+| Graphs > T(E) | `setStatusTip` | `"Transmission coefficient vs energy"` |
+| Menu bar | Additional menu title (Russian) | `"Additional"` |
+| Additional > T(z) | `setStatusTip` | `"Transmission coefficient vs z"` |
+| Additional > Enz | `setStatusTip` | `"Energy levels vs parameter z"` |
+| Additional > qa(E) | `setStatusTip` | `"Quasi-levels in complex potential"` |
+| Additional > B_{N+1}(E+iG) | `setStatusTip` | `"Resonance levels E+iG, Re and Im B_{N+1}"` |
+| Toolbar: Model | `setToolTip` | `"Boundary conditions"` |
+| Toolbar: Un | `setToolTip` | `"Multi-well/barrier potential"` |
+| Toolbar: En | `setToolTip` | `"Values of energy levels En"` |
+| Toolbar: (E+iG)n | `setToolTip` | `"Values of quasi-energy levels"` |
+| Toolbar: U1 | `setToolTip` | `"Initial potential"` |
+| Toolbar: U2 | `setToolTip` | `"Final potential"` |
+| Toolbar: Ubias | `setToolTip` | `"Applied bias voltage"` |
+| Toolbar: Settings | `setToolTip` | `"Line width in pixels"` |
+| About dialog | Russian HTML body | English text with authors and project URL |
+
+### `PotentialViewMovable.cpp`
+- `setWhatsThis` → `"In this window you can drag potential wells and barriers with the mouse."`
