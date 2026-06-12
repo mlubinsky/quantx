@@ -26,7 +26,7 @@ class PotentialViewMultiWell : public QDialog
 {
     Q_OBJECT
 public:
-    PotentialViewMultiWell(QWidget *parent = 0, Qt::WindowFlags f = 0);
+    PotentialViewMultiWell(QWidget *parent = 0, Qt::WindowFlags f = Qt::WindowFlags());
     ~PotentialViewMultiWell(void);
 
     void setModel(PhysicalModel*);

@@ -4,11 +4,12 @@ DEPENDPATH += .
 INCLUDEPATH += .
 QT += widgets
 
-CODECFORTR = Windows-1251
+# CODECFORTR = Windows-1251
 TRANSLATIONS += kvant_en.ts
 TRANSLATIONS += kvant_fr.ts
 
-CONFIG += debug warn_on
+CONFIG += debug warn_on sdk_no_version_check
+# AGL framework removed in macOS 14; strip it after qmake generates the Makefile
 linux-g++ {
     QMAKE_CXXFLAGS_WARN_ON += -Wno-reorder
     QMAKE_CXXFLAGS_WARN_ON += -Wno-unused

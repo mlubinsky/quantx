@@ -73,7 +73,7 @@ void MyParamD::updateDisplay()
 {
     if (!ledit) return;
     QString aText;
-    aText.sprintf("%lg",this->v);
+    aText = QString::asprintf("%lg",this->v);
 //    this->ledit->setAlignment(Qt::AlignLeft);
     this->ledit->setText(aText);
     this->ledit->home(false);
@@ -124,7 +124,7 @@ void MyParamUxN::updateDisplay()
 {
     if (!ledit) return;
     QString aText;
-    aText.sprintf("%i",this->v);
+    aText = QString::asprintf("%i",this->v);
     this->ledit->setText(aText);
 }*/
 /*void MyParamUxN::drawUx()
@@ -196,6 +196,6 @@ void MyParamI::updateDisplay()
 {
     if (!ledit) return;
     QString aText;
-    aText.sprintf("%i",this->v);
+    aText = QString::asprintf("%i",this->v);
     this->ledit->setText(aText);
 }

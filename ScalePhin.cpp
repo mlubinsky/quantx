@@ -119,19 +119,19 @@ void ScalePhin::modelChanged()
     last.Hk = -1000;
 
     QString buf;
-    buf.sprintf("%lg",tp.Kmin);
+    buf = QString::asprintf("%lg",tp.Kmin);
     this->leKmin->setText(buf);
 
-    buf.sprintf("%lg",tp.Kmax);
+    buf = QString::asprintf("%lg",tp.Kmax);
     this->leKmax->setText(buf);
 
-    buf.sprintf("%lg",tp.Phinmax);
+    buf = QString::asprintf("%lg",tp.Phinmax);
     this->lePhimax->setText(buf);
 
-    buf.sprintf("%lg",tp.Phinmin);
+    buf = QString::asprintf("%lg",tp.Phinmin);
     this->lePhimin->setText(buf);
 
-    buf.sprintf("%lg",tp.Hk);
+    buf = QString::asprintf("%lg",tp.Hk);
     this->leHk->setText(buf);
 }
 

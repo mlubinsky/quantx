@@ -20,7 +20,7 @@
 #include "WaveFunctionView.h"
 #include <QGraphicsView>
 #include <QMouseEvent>
-#include <QMatrix>
+#include <QTransform>
 #include <QGraphicsItem>
 #include <QGraphicsScene>
 #include <QRectF>
@@ -296,8 +296,8 @@ void WaveFunctionView::setViewportMapping()
     qreal m22 = - a.height() / b.height();
     qreal dx = - m11 * a.x();
     qreal dy = - m22 * (a.y() + a.height());
-    QMatrix m(m11,0,0,m22,dx,dy);
-    this->setMatrix(m);
+    QTransform m(m11,0,0,m22,dx,dy);
+    this->setTransform(m);
     scene()->update(scene()->sceneRect());
     QRectF   sr = scene()->sceneRect();
     update();
@@ -317,11 +317,11 @@ void WaveFunctionView::mouseMoveEvent(QMouseEvent *e)
 }
 void WaveFunctionView::wheelEvent(QWheelEvent *event)
 {
-    scaleView(pow((double)2, -event->delta() / 240.0));
+    scaleView(pow((double)2, -event->angleDelta().y() / 240.0));
 }
 void WaveFunctionView::scaleView(qreal scaleFactor)
 {
-    qreal factor = matrix().scale(scaleFactor, scaleFactor).mapRect(QRectF(0, 0, 1, 1)).width();
+    qreal factor = transform().scale(scaleFactor, scaleFactor).mapRect(QRectF(0, 0, 1, 1)).width();
     if (factor < 0.007 || factor > 1000)
         return;
 
@@ -751,7 +751,7 @@ void WaveFunctionWidget::writeToXml(QXmlStreamWriter *w)
     w->writeStartElement("Psix");
     {
         QString s;
-        s.sprintf("%i",what);
+        s = QString::asprintf("%i",what);
         w->writeTextElement("WhatToDraw",s);
     }
     w->writeEndElement();

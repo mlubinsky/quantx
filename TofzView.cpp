@@ -19,7 +19,7 @@
 
 #include <QGraphicsView>
 #include <QMouseEvent>
-#include <QMatrix>
+#include <QTransform>
 #include <QGraphicsItem>
 #include <QGraphicsScene>
 #include <QRectF>
@@ -100,7 +100,7 @@ public:
         QRect vpr = view->viewport()->rect();
         QPointF vpr1 = view->mapToScene(vpr.topLeft());
         QPointF vpr2 = view->mapToScene(vpr.bottomRight());
-        QMatrix m = view->matrix();
+        QTransform m = view->transform();
         QRectF aa=QRectF(QPointF(),p2).adjusted(-ax,-ay,ax,ay);
         return aa;///QRectF(QPointF(),p2).adjusted(-ax,-ay,ax,ay);
     }
@@ -266,8 +266,8 @@ void TofzView::setViewportMapping()
         qreal m22 = - a.height() / b.height();
         qreal dx = - m11 * a.x();
         qreal dy = - m22 * (a.y() + a.height());
-        QMatrix m(m11,0,0,m22,dx,dy);
-        this->setMatrix(m);
+        QTransform m(m11,0,0,m22,dx,dy);
+        this->setTransform(m);
         scene()->update(scene()->sceneRect());
     }
     update();
@@ -283,8 +283,8 @@ void TofzView::setViewportMapping()
         qreal m22 = - a.height() / b.height();
         qreal dx = - m11 * a.x();
         qreal dy = - m22 * (a.y() + a.height());
-        QMatrix m(m11,0,0,m22,dx,dy);
-        this->setMatrix(m);
+        QTransform m(m11,0,0,m22,dx,dy);
+        this->setTransform(m);
         scene()->update(scene()->sceneRect());
         sr = scene()->sceneRect();
     }
@@ -297,11 +297,11 @@ void TofzView::resizeEvent(QResizeEvent *)
 
 void TofzView::wheelEvent(QWheelEvent *event)
 {
-    scaleView(pow((double)2, -event->delta() / 240.0));
+    scaleView(pow((double)2, -event->angleDelta().y() / 240.0));
 }
 void TofzView::scaleView(qreal scaleFactor)
 {
-    qreal factor = matrix().scale(scaleFactor, scaleFactor).mapRect(QRectF(0, 0, 1, 1)).width();
+    qreal factor = transform().scale(scaleFactor, scaleFactor).mapRect(QRectF(0, 0, 1, 1)).width();
     if (factor < 0.007 || factor > 1000)
         return;
 
@@ -516,7 +516,7 @@ void TofzView::initDialogScaleY()
         QHBoxLayout *h = new QHBoxLayout(line);
         h->addWidget(new QLabel(tr("Tmin"),this));
         h->addWidget(this->leTmin= new QLineEdit(this));
-        QString x;        x.sprintf("%lg",this->tMin);
+        QString x;        x = QString::asprintf("%lg",this->tMin);
         this->leTmin->setText(x);
         connect(this->leTmin,SIGNAL(editingFinished()),this,SLOT(updateScaleTZ()));
         vl->addWidget(line);
@@ -527,7 +527,7 @@ void TofzView::initDialogScaleY()
         h->addWidget(new QLabel(tr("Tmax"),this));
         h->addWidget(this->leTmax= new QLineEdit(this));
         QString x;
-        x.sprintf("%lg",this->tMax);
+        x = QString::asprintf("%lg",this->tMax);
         this->leTmax->setText(x);
         //        this->leTmax->setToolTip("High value of E-interval");
         connect(this->leTmax,SIGNAL(editingFinished()),this,SLOT(updateScaleTZ()));
@@ -545,9 +545,9 @@ void TofzView::showDialogScaleY()
 void TofzView::setScaleTZ()
 {
     QString x;
-    x.sprintf("%lg",this->tMax);
+    x = QString::asprintf("%lg",this->tMax);
     this->leTmax->setText(x);
-    x.sprintf("%lg",this->tMin);
+    x = QString::asprintf("%lg",this->tMin);
     this->leTmin->setText(x);
 }
 void TofzView::updateScaleTZ()
@@ -728,15 +728,15 @@ void TZWidget::writeToXml(QXmlStreamWriter *w)
     w->writeStartElement("TZ");
     {
         QString s;
-/*        s.sprintf("%lg",transmissionView->Zmin);
+/*        s = QString::asprintf("%lg",transmissionView->Zmin);
         w->writeTextElement("Zmin",s);
-        s.sprintf("%lg",transmissionView->Zmax);
+        s = QString::asprintf("%lg",transmissionView->Zmax);
         w->writeTextElement("Zmax",s);
-        s.sprintf("%lg",transmissionView->hZ);
+        s = QString::asprintf("%lg",transmissionView->hZ);
         w->writeTextElement("hZ",s);*/
-        s.sprintf("%lg",tofzView->tMin);
+        s = QString::asprintf("%lg",tofzView->tMin);
         w->writeTextElement("Tmin",s);
-        s.sprintf("%lg",tofzView->tMax);
+        s = QString::asprintf("%lg",tofzView->tMax);
         w->writeTextElement("Tmax",s);
     }
     w->writeEndElement();

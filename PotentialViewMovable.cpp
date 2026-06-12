@@ -21,7 +21,7 @@
 #include "MainWindow.h"
 #include <QGraphicsView>
 #include <QMouseEvent>
-#include <QMatrix>
+#include <QTransform>
 #include <QGraphicsItem>
 #include <QGraphicsScene>
 #include <QRectF>
@@ -92,7 +92,7 @@ public:
         QRect vpr = view->viewport()->rect();
         QPointF vpr1 = view->mapToScene(vpr.topLeft());
         QPointF vpr2 = view->mapToScene(vpr.bottomRight());
-        QMatrix m = view->matrix();
+        QTransform m = view->transform();
         QRectF aa=QRectF(QPointF(),p2).adjusted(-ax,-ay,ax,ay);
         return aa;///QRectF(QPointF(),p2).adjusted(-ax,-ay,ax,ay);
     }
@@ -179,7 +179,7 @@ public:
         QRect vpr = view->viewport()->rect();
         QPointF vpr1 = view->mapToScene(vpr.topLeft());
         QPointF vpr2 = view->mapToScene(vpr.bottomRight());
-        QMatrix m = view->matrix();
+        QTransform m = view->transform();
         QRectF aa=QRectF(QPointF(),p2).adjusted(-ax,-ay,ax,ay);
         return aa;
 //        QRectF aa=QRectF(QPointF(),p2).adjusted(-ax,-ay,ax,ay);
@@ -267,7 +267,7 @@ public:
         QRect vpr = view->viewport()->rect();
         QPointF vpr1 = view->mapToScene(vpr.topLeft());
         QPointF vpr2 = view->mapToScene(vpr.bottomRight());
-        QMatrix m = view->matrix();
+        QTransform m = view->transform();
         QRectF aa=QRectF(QPointF(),p2).adjusted(-ax,-ay,ax,ay);
         return aa;//QRectF(QPointF(),p2).adjusted(-ax,-ay,ax,ay);
     }
@@ -496,8 +496,8 @@ void PotentialViewMovable::setViewportMapping()
         qreal m22 = - a.height() / b.height();
         qreal dx = - m11 * a.x();
         qreal dy = - m22 * (a.y() + a.height());
-        QMatrix m(m11,0,0,m22,dx,dy);
-        this->setMatrix(m);
+        QTransform m(m11,0,0,m22,dx,dy);
+        this->setTransform(m);
         scene()->update(scene()->sceneRect());
         sr = scene()->sceneRect();
     SettingParameters ts;
@@ -524,11 +524,11 @@ void PotentialViewMovable::mouseMoveEvent(QMouseEvent *e)
 }
 void PotentialViewMovable::wheelEvent(QWheelEvent *event)
 {
-    scaleView(pow((double)2, -event->delta() / 240.0));
+    scaleView(pow((double)2, -event->angleDelta().y() / 240.0));
 }
 void PotentialViewMovable::scaleView(qreal scaleFactor)
 {
-    qreal factor = matrix().scale(scaleFactor, scaleFactor).mapRect(QRectF(0, 0, 1, 1)).width();
+    qreal factor = transform().scale(scaleFactor, scaleFactor).mapRect(QRectF(0, 0, 1, 1)).width();
     if (factor < 0.007 || factor > 1000)
         return;
 
@@ -1339,7 +1339,7 @@ void PotentialViewMovable::initDialogRangeE()
         h->addWidget(this->leHE = new QLineEdit(this));
         this->leHE->setToolTip("E-increment");
         QString x;
-        x.sprintf("%lg",this->hE);
+        x = QString::asprintf("%lg",this->hE);
         this->leHE->setText(x);
         connect(this->leHE,SIGNAL(editingFinished()),this,SLOT(updateRangeE()));
         vl->addWidget(line);
@@ -1350,7 +1350,7 @@ void PotentialViewMovable::initDialogRangeE()
         h->addWidget(new QLabel("Emin",this));
         h->addWidget(this->leEmin= new QLineEdit(this));
         QString x;
-        x.sprintf("%lg",this->Emin);
+        x = QString::asprintf("%lg",this->Emin);
         this->leEmin->setText(x);
         this->leEmin->setToolTip("Lower value of E-interval");
         connect(this->leEmin,SIGNAL(editingFinished()),this,SLOT(updateRangeE()));
@@ -1362,7 +1362,7 @@ void PotentialViewMovable::initDialogRangeE()
         h->addWidget(new QLabel("Emax",this));
         h->addWidget(this->leEmax= new QLineEdit(this));
         QString x;
-        x.sprintf("%lg",this->Emax);
+        x = QString::asprintf("%lg",this->Emax);
         this->leEmax->setText(x);
         this->leEmax->setToolTip("High value of E-interval");
         connect(this->leEmax,SIGNAL(editingFinished()),this,SLOT(updateRangeE()));
@@ -1380,11 +1380,11 @@ void PotentialViewMovable::showDialogRangeE()
 void PotentialViewMovable::setRangeE()
 {
     QString x;
-    x.sprintf("%lg",this->hE);
+    x = QString::asprintf("%lg",this->hE);
     this->leHE->setText(x);
-    x.sprintf("%lg",this->Emin);
+    x = QString::asprintf("%lg",this->Emin);
     this->leEmin->setText(x);
-    x.sprintf("%lg",this->Emax);
+    x = QString::asprintf("%lg",this->Emax);
     this->leEmax->setText(x);
 }
 void PotentialViewMovable::modelChanged()
@@ -1392,13 +1392,13 @@ void PotentialViewMovable::modelChanged()
     EParameters tp = model->getEParameters();
 
     QString buf;
-    buf.sprintf("%lg",tp.hE);
+    buf = QString::asprintf("%lg",tp.hE);
     this->leHE->setText(buf);
 
-    buf.sprintf("%lg",tp.Emin);
+    buf = QString::asprintf("%lg",tp.Emin);
     this->leEmin->setText(buf);
 
-    buf.sprintf("%lg",tp.Emax);
+    buf = QString::asprintf("%lg",tp.Emax);
     this->leEmax->setText(buf);
 }
 
@@ -1497,7 +1497,7 @@ PotentialMovableWidget::PotentialMovableWidget(PhysicalModel *model, QWidget *pa
 
     QVBoxLayout *vl = new QVBoxLayout();
     potentialViewMovable = new PotentialViewMovable(model,this);
-    potentialViewMovable->setWhatsThis(tr("В этом окне вы можете редактировать потенциал и видеть уровни энергии. "));
+    potentialViewMovable->setWhatsThis(tr("пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ. "));
     vl->addWidget(potentialViewMovable);
 /*    QPushButton *help = new QPushButton("Help");
     vl->addWidget(help);
@@ -1532,7 +1532,7 @@ PotentialMovableWidget::PotentialMovableWidget(PhysicalModel *model, QWidget *pa
     lNtext->setText(tr("n="));
     lN = new QLineEdit(this);
     QString x;
-    x.sprintf("%i",model->get_LevelNumber());
+    x = QString::asprintf("%i",model->get_LevelNumber());
     lN->setText(x);
     lN->setMaximumWidth(50);
 //    lN->setEnabled(true);
@@ -1543,7 +1543,7 @@ PotentialMovableWidget::PotentialMovableWidget(PhysicalModel *model, QWidget *pa
     QLabel *lEtext= new QLabel(this);
     lEtext->setText(tr("E="));
     lE = new QLineEdit(this);
-    x.sprintf("%lg",model->get_E0());
+    x = QString::asprintf("%lg",model->get_E0());
     lE->setText(x);
     lE->setMaximumWidth(150);
 //    lE->setEnabled(true);
@@ -1619,12 +1619,12 @@ void PotentialMovableWidget::updateEnergy()
 void PotentialMovableWidget::printEnergy()
 {
     QString buf;
-    buf.sprintf("%lg",this->potentialViewMovable->model->get_E0());
+    buf = QString::asprintf("%lg",this->potentialViewMovable->model->get_E0());
     this->lE->setText(buf);
 }
 void PotentialMovableWidget::printLevelNumber()
 {
     QString buf;
-    buf.sprintf("%i",this->potentialViewMovable->model->get_LevelNumber());
+    buf = QString::asprintf("%i",this->potentialViewMovable->model->get_LevelNumber());
     this->lN->setText(buf);
 }

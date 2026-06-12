@@ -26,7 +26,7 @@ class ScaleWPX : public QDialog
 {
     Q_OBJECT
 public:
-    ScaleWPX(QWidget *parent = 0, Qt::WindowFlags f = 0);
+    ScaleWPX(QWidget *parent = 0, Qt::WindowFlags f = Qt::WindowFlags());
     ~ScaleWPX(void);
 
     void setModel(PhysicalModel*);

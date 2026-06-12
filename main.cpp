@@ -17,11 +17,9 @@
  *  02110-1301 USA
  */
 
-#include <QTextCodec>
 #include "MainWindow.h"
 #include <QApplication>
 #include <QTranslator>
-#include <QTime>
 #include <QFont>
 
 void installEnglishTranslation(QApplication *app)
@@ -46,8 +44,7 @@ main(int argc, char **argv)
     //installEnglishTranslation(&app); //optional
 
 //    QPalette pal(Qt::green.light(200), Qt::blue.light(200));
-    qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));//!!!!!!!!!
-
+    // Qt6: QRandomGenerator::global() is OS-seeded and must not be manually seeded
     MainWindow mainWindow;
 
     mainWindow.resize(mainWindow.sizeHint());
@@ -56,8 +53,7 @@ main(int argc, char **argv)
 //    QFont font( "Serif", 10, QFont::DemiBold );
     mainWindow.setFont(font);
 //    mainWindow.setPointSize(10);
-    //mainWindow.setWindowTitle("Solution of the Schroedinger equation for the step-wise potential");
-    mainWindow.setWindowTitle(mainWindow.tr("Решение уравнения Шредингера c кусочно-постоянным потенциалом"));
+    mainWindow.setWindowTitle("Solution of the Schroedinger equation for a piecewise-constant potential");
 //    QApplication::setPalette(pal, true);
     mainWindow.show();
 

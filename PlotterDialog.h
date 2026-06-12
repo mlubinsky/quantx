@@ -28,7 +28,7 @@ class PlotterDialog : public QWidget
     Q_OBJECT
 
 public:
-    PlotterDialog(QWidget *parent = 0, Qt::WindowFlags flags = 0);
+    PlotterDialog(QWidget *parent = 0, Qt::WindowFlags flags = Qt::WindowFlags());
     Plotter *plotter() const { return _plotter; }
 
 protected slots:

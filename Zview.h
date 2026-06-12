@@ -28,7 +28,7 @@ class Zview : public QDialog
 {
     Q_OBJECT
 public:
-    Zview(QWidget *parent = 0, Qt::WindowFlags f = 0);
+    Zview(QWidget *parent = 0, Qt::WindowFlags f = Qt::WindowFlags());
     ~Zview(void);
 
     void setModel(PhysicalModel*);

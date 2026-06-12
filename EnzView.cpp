@@ -20,7 +20,7 @@
 #include "EnzView.h"
 #include <QGraphicsView>
 #include <QMouseEvent>
-#include <QMatrix>
+#include <QTransform>
 #include <QGraphicsItem>
 #include <QGraphicsScene>
 #include <QRectF>
@@ -101,7 +101,7 @@ public:
         QRect vpr = view->viewport()->rect();
         QPointF vpr1 = view->mapToScene(vpr.topLeft());
         QPointF vpr2 = view->mapToScene(vpr.bottomRight());
-        QMatrix m = view->matrix();
+        QTransform m = view->transform();
         QRectF aa=QRectF(QPointF(),p2).adjusted(-ax,-ay,ax,ay);
         return aa;///QRectF(QPointF(),p2).adjusted(-ax,-ay,ax,ay);
     }
@@ -296,8 +296,8 @@ void EnzView::setViewportMapping()
         qreal m22 = - a.height() / b.height();
         qreal dx = - m11 * a.x();
         qreal dy = - m22 * (a.y() + a.height());
-        QMatrix m(m11,0,0,m22,dx,dy);
-        this->setMatrix(m);
+        QTransform m(m11,0,0,m22,dx,dy);
+        this->setTransform(m);
         scene()->update(scene()->sceneRect());
     }
     update();
@@ -318,11 +318,11 @@ void EnzView::mouseMoveEvent(QMouseEvent *e)
 }
 void EnzView::wheelEvent(QWheelEvent *event)
 {
-    scaleView(pow((double)2, -event->delta() / 240.0));
+    scaleView(pow((double)2, -event->angleDelta().y() / 240.0));
 }
 void EnzView::scaleView(qreal scaleFactor)
 {
-    qreal factor = matrix().scale(scaleFactor, scaleFactor).mapRect(QRectF(0, 0, 1, 1)).width();
+    qreal factor = transform().scale(scaleFactor, scaleFactor).mapRect(QRectF(0, 0, 1, 1)).width();
     if (factor < 0.007 || factor > 1000)
         return;
 
@@ -789,7 +789,7 @@ void EnzView::initDialogScaleY()
         h->addWidget(new QLabel(tr("Enz_min"),this));
         h->addWidget(this->leEnzmin= new QLineEdit(this));
         QString x;
-        x.sprintf("%lg",this->Enzmin);
+        x = QString::asprintf("%lg",this->Enzmin);
         this->leEnzmin->setText(x);
         connect(this->leEnzmin,SIGNAL(editingFinished()),this,SLOT(updateScaleEnz()));
         vl->addWidget(line);
@@ -800,7 +800,7 @@ void EnzView::initDialogScaleY()
         h->addWidget(new QLabel(tr("Enz_max"),this));
         h->addWidget(this->leEnzmax= new QLineEdit(this));
         QString x;
-        x.sprintf("%lg",this->Enzmax);
+        x = QString::asprintf("%lg",this->Enzmax);
         this->leEnzmax->setText(x);
         //        this->leTmax->setToolTip("High value of E-interval");
         connect(this->leEnzmax,SIGNAL(editingFinished()),this,SLOT(updateScaleEnz()));
@@ -819,9 +819,9 @@ void EnzView::setScaleEnz()
 {
     QString x;
     this->leEnzmax->setText(x);
-    x.sprintf("%lg",this->Enzmax);
+    x = QString::asprintf("%lg",this->Enzmax);
     this->leEnzmax->setText(x);
-    x.sprintf("%lg",this->Enzmin);
+    x = QString::asprintf("%lg",this->Enzmin);
     this->leEnzmin->setText(x);
 }
 
@@ -875,9 +875,9 @@ void EnzWidget::writeToXml(QXmlStreamWriter *w)
     {
         QPair<double,double> t = enzView->getEnzMinMax();
         QString s;
-        s.sprintf("%lg",t.first);
+        s = QString::asprintf("%lg",t.first);
         w->writeTextElement("Emin",s);
-        s.sprintf("%lg",t.second);
+        s = QString::asprintf("%lg",t.second);
         w->writeTextElement("Emax",s);
     }
     w->writeEndElement();

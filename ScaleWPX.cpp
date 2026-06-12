@@ -118,19 +118,19 @@ void ScaleWPX::modelChanged()
     last.Hx = -1000;
 
     QString buf;
-    buf.sprintf("%lg",tp.Xmin);
+    buf = QString::asprintf("%lg",tp.Xmin);
     this->leXmin->setText(buf);
 
-    buf.sprintf("%lg",tp.Xmax);
+    buf = QString::asprintf("%lg",tp.Xmax);
     this->leXmax->setText(buf);
 
-    buf.sprintf("%lg",tp.WPXmax);
+    buf = QString::asprintf("%lg",tp.WPXmax);
     this->lePsimax->setText(buf);
 
-    buf.sprintf("%lg",tp.WPXmin);
+    buf = QString::asprintf("%lg",tp.WPXmin);
     this->lePsimin->setText(buf);
 
-    buf.sprintf("%lg",tp.Hx);
+    buf = QString::asprintf("%lg",tp.Hx);
     this->leHx->setText(buf);
 }
 

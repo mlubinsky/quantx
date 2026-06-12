@@ -27,7 +27,7 @@ class ScaleTE : public QDialog
     /*
     Q_OBJECT
 public:
-    ScaleTE(QWidget *parent = 0, Qt::WindowFlags f = 0);
+    ScaleTE(QWidget *parent = 0, Qt::WindowFlags f = Qt::WindowFlags());
     ~ScaleTE(void);
 
     void setModel(PhysicalModel*);

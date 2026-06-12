@@ -26,7 +26,7 @@ class Uparabolic : public QDialog
 {
     Q_OBJECT
 public:
-    Uparabolic(QWidget *parent = 0, Qt::WindowFlags f = 0);
+    Uparabolic(QWidget *parent = 0, Qt::WindowFlags f = Qt::WindowFlags());
     ~Uparabolic(void);
 
     void setModel(PhysicalModel*);

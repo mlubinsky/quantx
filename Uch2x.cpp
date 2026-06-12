@@ -92,11 +92,11 @@ void Uch2x::modelChanged()
     last.numberOfIntervals = -1;
 
     QString buf;
-    buf.sprintf("%i",up.numberOfIntervals);
+    buf = QString::asprintf("%i",up.numberOfIntervals);
     this->leNumberOfIntervals->setText(buf);
-    buf.sprintf("%lg",up.U0);
+    buf = QString::asprintf("%lg",up.U0);
     this->leU0->setText(buf);
-    buf.sprintf("%lg",up.Width);
+    buf = QString::asprintf("%lg",up.Width);
     this->leWidth->setText(buf);
 }
 

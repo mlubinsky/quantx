@@ -118,17 +118,17 @@ void PotentialViewMultiWell::modelChanged()
     last.numberOfWells = -1;
 
     QString buf;
-    buf.sprintf("%i",u.numberOfWells);
+    buf = QString::asprintf("%i",u.numberOfWells);
     this->leNumberOfWells->setText(buf);
-    buf.sprintf("%lg",u.wa);
+    buf = QString::asprintf("%lg",u.wa);
     this->leWidthA->setText(buf);
-    buf.sprintf("%lg",u.wb);
+    buf = QString::asprintf("%lg",u.wb);
     this->leWidthB->setText(buf);
-    buf.sprintf("%lg",u.ua);
+    buf = QString::asprintf("%lg",u.ua);
     this->leHeightA->setText(buf);
-    buf.sprintf("%lg",u.ub);
+    buf = QString::asprintf("%lg",u.ub);
     this->leHeightB->setText(buf);
-//    buf.sprintf("%lg",u.ubias);
+//    buf = QString::asprintf("%lg",u.ubias);
 //    this->leUBias->setText(buf);
 }
 

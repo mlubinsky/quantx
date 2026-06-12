@@ -26,7 +26,7 @@ class Ulinear : public QDialog
 {
     Q_OBJECT
 public:
-    Ulinear(QWidget *parent = 0, Qt::WindowFlags f = 0);
+    Ulinear(QWidget *parent = 0, Qt::WindowFlags f = Qt::WindowFlags());
     ~Ulinear(void);
 
     void setModel(PhysicalModel*);

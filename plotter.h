@@ -40,7 +40,7 @@ class Plotter : public QWidget
 {
     Q_OBJECT
 public:
-    Plotter(QWidget *parent = 0, Qt::WindowFlags flags=0);
+    Plotter(QWidget *parent = 0, Qt::WindowFlags flags=Qt::WindowFlags());
 //old    Plotter(QWidget *parent = 0, const char *name=0,
 //old        Qt::WFlags flags=0);
     void setPlotSettings(const PlotSettings &settings);
@@ -70,7 +70,7 @@ protected:
     void mouseReleaseEvent(QMouseEvent *event);
     void keyPressEvent(QKeyEvent *event);
     void wheelEvent(QWheelEvent *event);
-    void enterEvent(QEvent *event);
+    void enterEvent(QEnterEvent *event);
 private:
     void moveButtons();
     void updateRubberBandRegion();

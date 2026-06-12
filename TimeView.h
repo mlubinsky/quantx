@@ -26,7 +26,7 @@ class TimeView : public QDialog
 {
     Q_OBJECT
 public:
-    TimeView(QWidget *parent = 0, Qt::WindowFlags f = 0);
+    TimeView(QWidget *parent = 0, Qt::WindowFlags f = Qt::WindowFlags());
     ~TimeView(void);
 
     void setModel(PhysicalModel*);

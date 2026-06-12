@@ -27,7 +27,7 @@ class BoundaryCondition : public QDialog
 {
     Q_OBJECT
 public:
-    BoundaryCondition(QWidget *parent = 0, Qt::WindowFlags f = 0);
+    BoundaryCondition(QWidget *parent = 0, Qt::WindowFlags f = Qt::WindowFlags());
     ~BoundaryCondition(void);
 
     void setModel(PhysicalModel*);

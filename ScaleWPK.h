@@ -26,7 +26,7 @@ class ScaleWPK : public QDialog
 {
     Q_OBJECT
 public:
-    ScaleWPK(QWidget *parent = 0, Qt::WindowFlags f = 0);
+    ScaleWPK(QWidget *parent = 0, Qt::WindowFlags f = Qt::WindowFlags());
     ~ScaleWPK(void);
 
     void setModel(PhysicalModel*);

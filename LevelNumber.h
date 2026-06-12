@@ -26,7 +26,7 @@ class LevelNumber : public QDialog
 {
     Q_OBJECT
 public:
-    LevelNumber(QWidget *parent = 0, Qt::WindowFlags f = 0);
+    LevelNumber(QWidget *parent = 0, Qt::WindowFlags f = Qt::WindowFlags());
     ~LevelNumber(void);
 
     void setModel(PhysicalModel*);

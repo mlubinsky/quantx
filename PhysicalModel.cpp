@@ -4994,7 +4994,7 @@ void ModelXML::readUbias()
 void ModelXML::writeE0()
 {
     QString s;
-    s.sprintf("%lg",model->get_E0());
+    s = QString::asprintf("%lg",model->get_E0());
     w->writeTextElement("E0",s);
 }
 void ModelXML::writeEParameters()
@@ -5004,14 +5004,14 @@ void ModelXML::writeEParameters()
     double hE=tp.hE;
     double Emin=tp.Emin;
     double Emax=tp.Emax;
-    s.sprintf("%lg %lg %lg",hE,Emin,Emax);
+    s = QString::asprintf("%lg %lg %lg",hE,Emin,Emax);
     w->writeTextElement("EnergyParameters",s);
 }
 
 void ModelXML::writeTypeWP()
 {
     QString s;
-    s.sprintf("%i",model->get_type_of_WP());
+    s = QString::asprintf("%i",model->get_type_of_WP());
     w->writeTextElement("TypeWP",s);
 }
 void ModelXML::writeTypeOfU()
@@ -5029,7 +5029,7 @@ void ModelXML::writeTypeOfU()
 void ModelXML::writeUbias()
 {
     QString s;
-    s.sprintf("%lg",model->getUbias());
+    s = QString::asprintf("%lg",model->getUbias());
     w->writeTextElement("Ubias",s);
 }
 
@@ -5128,7 +5128,7 @@ void ModelXML::writeUdm()
         double u=model->get_Ui(n);
         double d=model->get_d(n);
         double m=model->get_m(n);
-        step.sprintf("%lg %lg %lg",u,d,m);
+        step = QString::asprintf("%lg %lg %lg",u,d,m);
         w->writeTextElement("step",step);
     }
     w->writeEndElement();
@@ -5142,7 +5142,7 @@ void ModelXML::writeUdm1()
         double u=model->get_U1(n);
         double d=model->get_d1(n);
         double m=model->get_m1(n);
-        step.sprintf("%lg %lg %lg",u,d,m);
+        step = QString::asprintf("%lg %lg %lg",u,d,m);
         w->writeTextElement("step",step);
     }
     w->writeEndElement();
@@ -5156,7 +5156,7 @@ void ModelXML::writeUdm2()
         double u=model->get_U2(n);
         double d=model->get_d2(n);
         double m=model->get_m2(n);
-        step.sprintf("%lg %lg %lg",u,d,m);
+        step = QString::asprintf("%lg %lg %lg",u,d,m);
         w->writeTextElement("step",step);
     }
     w->writeEndElement();
@@ -5169,7 +5169,7 @@ void ModelXML::writeGParam()
     double hg=tp.hg;
     double gmin=tp.gmin;
     double gmax=tp.gmax;
-    s.sprintf("%lg %lg %lg %lg",g,hg,gmin,gmax);
+    s = QString::asprintf("%lg %lg %lg %lg",g,hg,gmin,gmax);
     w->writeTextElement("GParameters",s);
 }
 void ModelXML::writeTime()
@@ -5180,7 +5180,7 @@ void ModelXML::writeTime()
     double ht=tp.ht;
     double tmin=tp.tmin;
     double tmax=tp.tmax;
-    s.sprintf("%lg %lg %lg %lg",t,ht,tmin,tmax);
+    s = QString::asprintf("%lg %lg %lg %lg",t,ht,tmin,tmax);
     w->writeTextElement("time",s);
 }
 void ModelXML::writeZdef()
@@ -5191,7 +5191,7 @@ void ModelXML::writeZdef()
     double hz=tp.hz;
     double zmin=tp.zmin;
     double zmax=tp.zmax;
-    s.sprintf("%lg %lg %lg %lg",z,hz,zmin,zmax);
+    s = QString::asprintf("%lg %lg %lg %lg",z,hz,zmin,zmax);
     w->writeTextElement("ZParameters",s);
 }
 void ModelXML::writeLevelNumber()
@@ -5201,14 +5201,14 @@ void ModelXML::writeLevelNumber()
     int hn=tp.hn;
     int nmin=tp.nmin;
     int nmax=tp.nmax;
-    s.sprintf("%i %i %i",hn,nmin,nmax);
+    s = QString::asprintf("%i %i %i",hn,nmin,nmax);
     w->writeTextElement("LevelNumber",s);
 }
 void ModelXML::writeWidthOfLine()
 {
     QString s;
     SettingParameters tp=model->getSettingParameters();
-    s.sprintf("%i",tp.lineWidth);
+    s = QString::asprintf("%i",tp.lineWidth);
     w->writeTextElement("Settings",s);
 }
 void ModelXML::writeWPm()
@@ -5218,7 +5218,7 @@ void ModelXML::writeWPm()
     int hn=tp.hn;
     int nmin=tp.nmin;
     int nmax=tp.nmax;
-    s.sprintf("%i %i %i",hn,nmin,nmax);
+    s = QString::asprintf("%i %i %i",hn,nmin,nmax);
     w->writeTextElement("WPm",s);
 }
 void ModelXML::writeWPp()
@@ -5228,7 +5228,7 @@ void ModelXML::writeWPp()
     int nn=tp.numberOfModes;
     double Emin=tp.E_low;
     double Emax=tp.E_high;
-    s.sprintf("%i %lg %lg",nn,Emin,Emax);
+    s = QString::asprintf("%i %lg %lg",nn,Emin,Emax);
     w->writeTextElement("WPp",s);
 }
 void ModelXML::writeScalesUx()
@@ -5240,7 +5240,7 @@ void ModelXML::writeScalesUx()
     double xmax=tp.Xmax;
     double Umin=tp.Umin;
     double Umax=tp.Umax;
-    s.sprintf("%lg %lg %lg %lg",xmin,xmax,Umin,Umax);
+    s = QString::asprintf("%lg %lg %lg %lg",xmin,xmax,Umin,Umax);
     w->writeTextElement("ScalesUx",s);
 }
 void ModelXML::writeScalesPsi()
@@ -5253,7 +5253,7 @@ void ModelXML::writeScalesPsi()
     double xmax=tp.Xmax;
     double Psimin=tp.Psinmin;
     double Psimax=tp.Psinmax;
-    s.sprintf("%lg %lg %lg %lg %lg",hx,xmin,xmax,Psimin,Psimax);
+    s = QString::asprintf("%lg %lg %lg %lg %lg",hx,xmin,xmax,Psimin,Psimax);
     w->writeTextElement("ScalesPsi",s);
 }
 void ModelXML::writeScalesWPX()
@@ -5266,7 +5266,7 @@ void ModelXML::writeScalesWPX()
     double xmax=tp.Xmax;
     double Psimin=tp.WPXmin;
     double Psimax=tp.WPXmax;
-    s.sprintf("%lg %lg %lg %lg %lg",hx,xmin,xmax,Psimin,Psimax);
+    s = QString::asprintf("%lg %lg %lg %lg %lg",hx,xmin,xmax,Psimin,Psimax);
     w->writeTextElement("ScalesWPX",s);
 }
 void ModelXML::writeScalesWPK()
@@ -5279,7 +5279,7 @@ void ModelXML::writeScalesWPK()
     double kmax=tp.Kmax;
     double Psimin=tp.WPKmin;
     double Psimax=tp.WPKmax;
-    s.sprintf("%lg %lg %lg %lg %lg",hk,kmin,kmax,Psimin,Psimax);
+    s = QString::asprintf("%lg %lg %lg %lg %lg",hk,kmin,kmax,Psimin,Psimax);
     w->writeTextElement("ScalesWPK",s);
 }
 void ModelXML::writeScalesPhi()
@@ -5292,7 +5292,7 @@ void ModelXML::writeScalesPhi()
     double kmax=tp.Kmax;
     double Phimin=tp.Phinmin;
     double Phimax=tp.Phinmax;
-    s.sprintf("%lg %lg %lg %lg %lg",hk,kmin,kmax,Phimin,Phimax);
+    s = QString::asprintf("%lg %lg %lg %lg %lg",hk,kmin,kmax,Phimin,Phimax);
     w->writeTextElement("ScalesPhi",s);
 }
 

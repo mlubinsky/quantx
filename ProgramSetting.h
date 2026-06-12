@@ -26,7 +26,7 @@ class ProgramSetting : public QDialog
 {
     Q_OBJECT
 public:
-    ProgramSetting(QWidget *parent = 0, Qt::WindowFlags f = 0);
+    ProgramSetting(QWidget *parent = 0, Qt::WindowFlags f = Qt::WindowFlags());
     ~ProgramSetting(void);
 
     void setModel(PhysicalModel*);

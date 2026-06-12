@@ -26,7 +26,7 @@ class ScalePsin : public QDialog
 {
     Q_OBJECT
 public:
-    ScalePsin(QWidget *parent = 0, Qt::WindowFlags f = 0);
+    ScalePsin(QWidget *parent = 0, Qt::WindowFlags f = Qt::WindowFlags());
     ~ScalePsin(void);
 
     void setModel(PhysicalModel*);

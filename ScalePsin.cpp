@@ -119,19 +119,19 @@ void ScalePsin::modelChanged()
     last.Hx = -1000;
 
     QString buf;
-    buf.sprintf("%lg",tp.Xmin);
+    buf = QString::asprintf("%lg",tp.Xmin);
     this->leXmin->setText(buf);
 
-    buf.sprintf("%lg",tp.Xmax);
+    buf = QString::asprintf("%lg",tp.Xmax);
     this->leXmax->setText(buf);
 
-    buf.sprintf("%lg",tp.Psinmax);
+    buf = QString::asprintf("%lg",tp.Psinmax);
     this->lePsimax->setText(buf);
 
-    buf.sprintf("%lg",tp.Psinmin);
+    buf = QString::asprintf("%lg",tp.Psinmin);
     this->lePsimin->setText(buf);
 
-    buf.sprintf("%lg",tp.Hx);
+    buf = QString::asprintf("%lg",tp.Hx);
     this->leHx->setText(buf);
 }
 

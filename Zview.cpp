@@ -100,7 +100,7 @@ Zview::~Zview(void)
 void Zview::setCurrentZ(double d)
 {
     QString s;
-    s.sprintf("%lg",d);
+    s = QString::asprintf("%lg",d);
     this->leZ->setText(s);
 }
 
@@ -138,16 +138,16 @@ void Zview::modelChanged()
     last.z = -1000;
 
     QString buf;
-    buf.sprintf("%lg",tp.z);
+    buf = QString::asprintf("%lg",tp.z);
     this->leZ->setText(buf);
 
-    buf.sprintf("%lg",tp.zmin);
+    buf = QString::asprintf("%lg",tp.zmin);
     this->leZmin->setText(buf);
 
-    buf.sprintf("%lg",tp.zmax);
+    buf = QString::asprintf("%lg",tp.zmax);
     this->leZmax->setText(buf);
 
-    buf.sprintf("%lg",tp.hz);
+    buf = QString::asprintf("%lg",tp.hz);
     this->leHz->setText(buf);
 }
 

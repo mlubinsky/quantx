@@ -79,7 +79,7 @@ GView::~GView(void)
 void GView::setCurrentG(double d)
 {
     QString s;
-    s.sprintf("%lg",d);
+    s = QString::asprintf("%lg",d);
     this->leG->setText(s);
 }
 
@@ -117,16 +117,16 @@ void GView::modelChanged()
     last.g = -1000;
 
     QString buf;
-    buf.sprintf("%lg",tp.g);
+    buf = QString::asprintf("%lg",tp.g);
     this->leG->setText(buf);
 
-    buf.sprintf("%lg",tp.gmin);
+    buf = QString::asprintf("%lg",tp.gmin);
     this->leGmin->setText(buf);
 
-    buf.sprintf("%lg",tp.gmax);
+    buf = QString::asprintf("%lg",tp.gmax);
     this->leGmax->setText(buf);
 
-    buf.sprintf("%lg",tp.hg);
+    buf = QString::asprintf("%lg",tp.hg);
     this->leHG->setText(buf);
 }
 

@@ -93,11 +93,11 @@ void WPparametersP::modelChanged()
     last.numberOfModes = -1;
 
     QString buf;
-    buf.sprintf("%i",wp.numberOfModes);
+    buf = QString::asprintf("%i",wp.numberOfModes);
     this->leNumberOfModes->setText(buf);
-    buf.sprintf("%lg",wp.E_low);
+    buf = QString::asprintf("%lg",wp.E_low);
     this->leE_low->setText(buf);
-    buf.sprintf("%lg",wp.E_high);
+    buf = QString::asprintf("%lg",wp.E_high);
     this->leE_high->setText(buf);
 }
 

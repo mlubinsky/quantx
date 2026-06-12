@@ -19,7 +19,7 @@
 
 #include <QGraphicsView>
 #include <QMouseEvent>
-#include <QMatrix>
+#include <QTransform>
 #include <QGraphicsItem>
 #include <QGraphicsScene>
 #include <QRectF>
@@ -85,7 +85,7 @@ public:
         QRect vpr = view->viewport()->rect();
         QPointF vpr1 = view->mapToScene(vpr.topLeft());
         QPointF vpr2 = view->mapToScene(vpr.bottomRight());
-        QMatrix m = view->matrix();
+        QTransform m = view->transform();
         QRectF aa=QRectF(QPointF(),p2).adjusted(-ax,-ay,ax,ay);
         return aa;
 
@@ -182,7 +182,7 @@ public:
         QRect vpr = view->viewport()->rect();
         QPointF vpr1 = view->mapToScene(vpr.topLeft());
         QPointF vpr2 = view->mapToScene(vpr.bottomRight());
-        QMatrix m = view->matrix();
+        QTransform m = view->transform();
         QRectF aa=QRectF(QPointF(),p2).adjusted(-ax,-ay,ax,ay);
         return aa;///QRectF(QPointF(),p2).adjusted(-ax,-ay,ax,ay);
     }
@@ -329,8 +329,8 @@ void EofqaView::setViewportMapping()
         qreal m22 = - a.height() / b.height();
         qreal dx = - m11 * a.x();
         qreal dy = - m22 * (a.y() + a.height());
-        QMatrix m(m11,0,0,m22,dx,dy);
-        this->setMatrix(m);
+        QTransform m(m11,0,0,m22,dx,dy);
+        this->setTransform(m);
         scene()->update(scene()->sceneRect());
     }
     update();
@@ -342,11 +342,11 @@ void EofqaView::resizeEvent(QResizeEvent *)
 
 void EofqaView::wheelEvent(QWheelEvent *event)
 {
-    scaleView(pow((double)2, -event->delta() / 240.0));
+    scaleView(pow((double)2, -event->angleDelta().y() / 240.0));
 }
 void EofqaView::scaleView(qreal scaleFactor)
 {
-    qreal factor = matrix().scale(scaleFactor, scaleFactor).mapRect(QRectF(0, 0, 1, 1)).width();
+    qreal factor = transform().scale(scaleFactor, scaleFactor).mapRect(QRectF(0, 0, 1, 1)).width();
     if (factor < 0.007 || factor > 1000)
         return;
 
@@ -614,7 +614,7 @@ void EofqaView::initDialogScaleY()
         h->addWidget(this->leHE = new QLineEdit(this));
         this->leHE->setToolTip("E-increment");
         QString x;
-        x.sprintf("%lg",this->hE);
+        x = QString::asprintf("%lg",this->hE);
         this->leHE->setText(x);
         connect(this->leHE,SIGNAL(editingFinished()),this,SLOT(updateScaleQE()));
         vl->addWidget(line);
@@ -625,7 +625,7 @@ void EofqaView::initDialogScaleY()
         h->addWidget(new QLabel("Emin",this));
         h->addWidget(this->leEmin= new QLineEdit(this));
         QString x;
-        x.sprintf("%lg",this->Emin);
+        x = QString::asprintf("%lg",this->Emin);
         this->leEmin->setText(x);
         this->leEmin->setToolTip("Lower value of E-interval");
         connect(this->leEmin,SIGNAL(editingFinished()),this,SLOT(updateScaleQE()));
@@ -637,7 +637,7 @@ void EofqaView::initDialogScaleY()
         h->addWidget(new QLabel("Emax",this));
         h->addWidget(this->leEmax= new QLineEdit(this));
         QString x;
-        x.sprintf("%lg",this->Emax);
+        x = QString::asprintf("%lg",this->Emax);
         this->leEmax->setText(x);
         this->leEmax->setToolTip("High value of E-interval");
         connect(this->leEmax,SIGNAL(editingFinished()),this,SLOT(updateScaleQE()));
@@ -649,7 +649,7 @@ void EofqaView::initDialogScaleY()
         h->addWidget(new QLabel("qa_min/pi",this));
         h->addWidget(this->leTmin= new QLineEdit(this));
         QString x;
-        x.sprintf("%lg",this->qaMin);
+        x = QString::asprintf("%lg",this->qaMin);
         this->leTmin->setText(x);
         //        this->leTmin->setToolTip("Lower value of E-interval");
         connect(this->leTmin,SIGNAL(editingFinished()),this,SLOT(updateScaleQE()));
@@ -661,7 +661,7 @@ void EofqaView::initDialogScaleY()
         h->addWidget(new QLabel("qa_max/pi",this));
         h->addWidget(this->leTmax= new QLineEdit(this));
         QString x;
-        x.sprintf("%lg",this->qaMax);
+        x = QString::asprintf("%lg",this->qaMax);
         this->leTmax->setText(x);
         //        this->leTmax->setToolTip("High value of E-interval");
         connect(this->leTmax,SIGNAL(editingFinished()),this,SLOT(updateScaleQE()));
@@ -679,15 +679,15 @@ void EofqaView::showDialogScaleY()
 void EofqaView::setScaleQE()
 {
     QString x;
-    x.sprintf("%lg",this->hE);
+    x = QString::asprintf("%lg",this->hE);
     this->leHE->setText(x);
-    x.sprintf("%lg",this->Emin);
+    x = QString::asprintf("%lg",this->Emin);
     this->leEmin->setText(x);
-    x.sprintf("%lg",this->Emax);
+    x = QString::asprintf("%lg",this->Emax);
     this->leEmax->setText(x);
-    x.sprintf("%lg",this->qaMax);
+    x = QString::asprintf("%lg",this->qaMax);
     this->leTmax->setText(x);
-    x.sprintf("%lg",this->qaMin);
+    x = QString::asprintf("%lg",this->qaMin);
     this->leTmin->setText(x);
 }
 void EofqaView::updateScaleQE()
@@ -959,15 +959,15 @@ ScalesEQ u=eofqaView->getScalesEQ();
 w->writeStartElement("QE");
     {
         QString s;
-        s.sprintf("%lg",u.Emin);
+        s = QString::asprintf("%lg",u.Emin);
         w->writeTextElement("Emin",s);
-        s.sprintf("%lg",u.Emax);
+        s = QString::asprintf("%lg",u.Emax);
         w->writeTextElement("Emax",s);
-        s.sprintf("%lg",u.hE);
+        s = QString::asprintf("%lg",u.hE);
         w->writeTextElement("hE",s);
-        s.sprintf("%lg",u.qaMin);
+        s = QString::asprintf("%lg",u.qaMin);
         w->writeTextElement("qa_min",s);
-        s.sprintf("%lg",u.qaMax);
+        s = QString::asprintf("%lg",u.qaMax);
         w->writeTextElement("qa_max",s);
     }
     w->writeEndElement();

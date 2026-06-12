@@ -109,16 +109,16 @@ void ScalesUx::modelChanged()
     last.Xmin = -1000;
 
     QString buf;
-    buf.sprintf("%lg",tp.Xmin);
+    buf = QString::asprintf("%lg",tp.Xmin);
     this->leXmin->setText(buf);
 
-    buf.sprintf("%lg",tp.Xmax);
+    buf = QString::asprintf("%lg",tp.Xmax);
     this->leXmax->setText(buf);
 
-    buf.sprintf("%lg",tp.Umin);
+    buf = QString::asprintf("%lg",tp.Umin);
     this->leUmin->setText(buf);
 
-    buf.sprintf("%lg",tp.Umax);
+    buf = QString::asprintf("%lg",tp.Umax);
     this->leUmax->setText(buf);
 }
 

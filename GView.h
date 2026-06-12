@@ -27,7 +27,7 @@ class GView : public QDialog
 {
     Q_OBJECT
 public:
-    GView(QWidget *parent = 0, Qt::WindowFlags f = 0);
+    GView(QWidget *parent = 0, Qt::WindowFlags f = Qt::WindowFlags());
     ~GView(void);
 
     void setModel(PhysicalModel*);

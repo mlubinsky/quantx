@@ -79,7 +79,7 @@ TimeView::~TimeView(void)
 void TimeView::setCurrentTime(double d)
 {
     QString s;
-    s.sprintf("%lg",d);
+    s = QString::asprintf("%lg",d);
     this->leTime->setText(s);
 }
 
@@ -134,16 +134,16 @@ void TimeView::modelChanged()
     last.time = -1000;
 
     QString buf;
-    buf.sprintf("%lg",tp.time);
+    buf = QString::asprintf("%lg",tp.time);
     this->leTime->setText(buf);
 
-    buf.sprintf("%lg",tp.tmin);
+    buf = QString::asprintf("%lg",tp.tmin);
     this->leTmin->setText(buf);
 
-    buf.sprintf("%lg",tp.tmax);
+    buf = QString::asprintf("%lg",tp.tmax);
     this->leTmax->setText(buf);
 
-    buf.sprintf("%lg",tp.ht);
+    buf = QString::asprintf("%lg",tp.ht);
     this->leHTime->setText(buf);
 }
 

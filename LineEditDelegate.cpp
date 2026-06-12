@@ -46,7 +46,7 @@ void LineEditDelegate::setEditorData(QWidget *editor,
 
     QLineEdit *lineEdit = static_cast<QLineEdit*>(editor);
     QString str;
-    str.sprintf("%lg",value);
+    str = QString::asprintf("%lg",value);
     lineEdit->setText(str);
     lineEdit->setContextMenuPolicy(Qt::DefaultContextMenu);
 }

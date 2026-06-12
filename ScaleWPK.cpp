@@ -118,19 +118,19 @@ void ScaleWPK::modelChanged()
     last.Hk = -1000;
 
     QString buf;
-    buf.sprintf("%lg",tp.Kmin);
+    buf = QString::asprintf("%lg",tp.Kmin);
     this->leXmin->setText(buf);
 
-    buf.sprintf("%lg",tp.Kmax);
+    buf = QString::asprintf("%lg",tp.Kmax);
     this->leXmax->setText(buf);
 
-    buf.sprintf("%lg",tp.WPKmax);
+    buf = QString::asprintf("%lg",tp.WPKmax);
     this->lePsimax->setText(buf);
 
-    buf.sprintf("%lg",tp.WPKmin);
+    buf = QString::asprintf("%lg",tp.WPKmin);
     this->lePsimin->setText(buf);
 
-    buf.sprintf("%lg",tp.Hk);
+    buf = QString::asprintf("%lg",tp.Hk);
     this->leHx->setText(buf);
 }
 

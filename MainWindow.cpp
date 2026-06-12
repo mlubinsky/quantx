@@ -20,6 +20,8 @@
 #include "MainWindow.h"
 #include <math.h>
 #include <cmath>
+#include <QRegularExpression>
+#include <QRegularExpressionValidator>
 
 #include "myparam.h"
 #include "PhysicalModel.h"
@@ -61,24 +63,22 @@ static void update_gDocDir(const QString& filename = QString())
     }
 }
 
-class DoubleValidator : public QRegExpValidator
+class DoubleValidator : public QRegularExpressionValidator
 {
 public:
-    DoubleValidator(QWidget *parent) : QRegExpValidator(parent)
+    DoubleValidator(QWidget *parent) : QRegularExpressionValidator(parent)
     {
-        const QRegExp x(QString("[+-]?\\d+\\.?\\d*([dDe][+-]?\\d+)?"));
-        setRegExp(x);
+        setRegularExpression(QRegularExpression("[+-]?\\d+\\.?\\d*([dDe][+-]?\\d+)?"));
     }
     ~DoubleValidator(){}
 } theDoubleValidator(0);
 
-class PosIntValidator : public QRegExpValidator
+class PosIntValidator : public QRegularExpressionValidator
 {
 public:
-    PosIntValidator(QWidget *parent) : QRegExpValidator(parent)
+    PosIntValidator(QWidget *parent) : QRegularExpressionValidator(parent)
     {
-        const QRegExp x(QString("\\d+"));
-        setRegExp(x);
+        setRegularExpression(QRegularExpression("\\d+"));
     }
     ~PosIntValidator(){}
 } thePosIntValidator(0);
@@ -157,8 +157,8 @@ void MainWindow::initMenuBar()
      connect(taskAction, SIGNAL(triggered()), this, SLOT(helpTasks()));
      fileMenu->addAction(taskAction);
 
-     aboutAction = new QAction(tr("&О программе"),this);
-//     aboutAction->setStatuslTip(tr("Сведения о программе"));
+     aboutAction = new QAction(tr("&пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"),this);
+//     aboutAction->setStatuslTip(tr("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"));
      connect(aboutAction, SIGNAL(triggered()), this, SLOT(about()));
      fileMenu->addAction(aboutAction);
      fileMenu->addSeparator();
@@ -168,11 +168,11 @@ void MainWindow::initMenuBar()
 //     chooseFontAction->setShortcut(tr("Ctrl+F"));
 //     connect(chooseFontAction, SIGNAL(triggered()), this, SLOT(chooseFont()));
 
-     QMenu *uMenu = menuBar()->addMenu(tr("Потенциалы"));
+     QMenu *uMenu = menuBar()->addMenu(tr("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"));
      uMenu->setFont(font);//setFont(QFont("Serif", 12, QFont::Bold ));
-     QAction *uTable = new QAction(tr("Табличный"), uMenu);
-     QAction *uLinear = new QAction(tr("Линейный"),uMenu);
-     QAction *uParabolic = new QAction(tr("Параболический"),uMenu);
+     QAction *uTable = new QAction(tr("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"), uMenu);
+     QAction *uLinear = new QAction(tr("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"),uMenu);
+     QAction *uParabolic = new QAction(tr("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"),uMenu);
      QAction *uCh2x = new QAction(tr("U_0/ch^2(x/a)"),uMenu);
      uMenu->addAction(uTable);
      uMenu->addSeparator();
@@ -188,8 +188,8 @@ void MainWindow::initMenuBar()
      connect(uLinear, SIGNAL(triggered()), this, SLOT(slotSetUlinear()));
      connect(uCh2x, SIGNAL(triggered()), this, SLOT(slotSetUCh2x()));
 
-     QMenu *wMenu = menuBar()->addMenu(tr("Зависимости"));
-     wMenu->setWhatsThis(tr("Основные варианты счета"));
+     QMenu *wMenu = menuBar()->addMenu(tr("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"));
+     wMenu->setWhatsThis(tr("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ"));
      wMenu->setFont(font);
      QString psi=QChar(0x03C8);
      QString Psi=QChar(0x03A8);
@@ -207,53 +207,53 @@ void MainWindow::initMenuBar()
      Uaction = new QAction("U(x) && En", this);
      wMenu->addAction(Uaction);
      wMenu->addSeparator();
-     Uaction->setStatusTip(tr("Уровни энергии в потенциале U(x)"));
+     Uaction->setStatusTip(tr("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ U(x)"));
 
      QAction *mPsinX = new QAction(psinofx, this);
      wMenu->addAction(mPsinX);
      wMenu->addSeparator();
-     mPsinX->setStatusTip(tr("Волновые функции для уровней энергии"));
+     mPsinX->setStatusTip(tr("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ"));
 //     mPsinX->setStatusTip(tr("Wave functions for energy levels"));
      QAction *mPhinK = new QAction(mod_phinofk, this);
      wMenu->addAction(mPhinK);
      wMenu->addSeparator();
-     mPhinK->setStatusTip(tr("Импульсное распределение для уровней энергии"));
+     mPhinK->setStatusTip(tr("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ"));
 //     mPhinK->setStatusTip(tr("Momentum distributions for energy levels"));
      QAction *mPsiXT = new QAction(Psi+"(x,t)", this);
      wMenu->addAction(mPsiXT);
      wMenu->addSeparator();
-     mPsiXT->setStatusTip(tr("Временная эволюция волнового пакета: координатное распределение"));
+     mPsiXT->setStatusTip(tr("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"));
 //     mPsiXT->setStatusTip(tr("Coordinate distribution: time development of wave packet"));
      QAction *mPhiKT = new QAction(mod_Phinofkt, this);
      wMenu->addAction(mPhiKT);
      wMenu->addSeparator();
 
-     mPsiXT->setStatusTip(tr("Временная эволюция волнового пакета: импульсное распределение"));
+     mPsiXT->setStatusTip(tr("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"));
 //     mPhiKT->setStatusTip(tr("Momentum distribution: time development of wave packet"));
      QAction *mTE = new QAction(tr("T(E)"), this);
      wMenu->addAction(mTE);
      wMenu->addSeparator();
-     mTE->setStatusTip(tr("Коэффициент прохождения в зависимости от энергии"));
+     mTE->setStatusTip(tr("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ"));
 
 /*     QAction *mTZ = new QAction(tr("T(z)"), this);
-     mTZ->setStatusTip(tr("Коэффициент прохождения в зависимости от z"));
+     mTZ->setStatusTip(tr("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ z"));
      wMenu->addAction(mTZ);
      wMenu->addSeparator();
 
      QAction *mEnz = new QAction(tr("Enz"), this);
      wMenu->addAction(mEnz);
      wMenu->addSeparator();
-     mEnz->setStatusTip(tr("Уровни энергии как функция деформации потенциала z"));
+     mEnz->setStatusTip(tr("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ z"));
 
      QAction *mQE = new QAction(tr("qa(E)"), this);
      wMenu->addAction(mQE);
      wMenu->addSeparator();
-     mQE->setStatusTip(tr("Закон дисперсии в периодическом поле"));
+     mQE->setStatusTip(tr("пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ"));
 
      QAction *mEG = new QAction(tr("B_{N+1}(E+iG)"), this);
      wMenu->addAction(mEG);
      wMenu->addSeparator();
-     mEG->setStatusTip(tr("Квазистационарные сост. на пл. E+iG, нули Re и Im B_{N+1}" ));
+     mEG->setStatusTip(tr("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ. пїЅпїЅ пїЅпїЅ. E+iG, пїЅпїЅпїЅпїЅ Re пїЅ Im B_{N+1}" ));
 */
      connect(Uaction, SIGNAL(triggered()), this, SLOT(window_Ux()));
      connect(mPsinX, SIGNAL(triggered()), this, SLOT(window_psi_x()));
@@ -266,28 +266,28 @@ void MainWindow::initMenuBar()
      connect(mQE, SIGNAL(triggered()), this, SLOT(window_QE()));
      connect(mEG, SIGNAL(triggered()), this, SLOT(window_EG()));
 */
-     QMenu *adMenu = menuBar()->addMenu(tr("Доп. зависимости"));
+     QMenu *adMenu = menuBar()->addMenu(tr("пїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"));
      adMenu->setWhatsThis(tr("Additional dependences"));
      adMenu->setFont(font);
      QAction *mTZ = new QAction(tr("T(z)"), this);
-     mTZ->setStatusTip(tr("Коэффициент прохождения в зависимости от z"));
+     mTZ->setStatusTip(tr("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ z"));
      adMenu->addAction(mTZ);
      adMenu->addSeparator();
 
      QAction *mEnz = new QAction(tr("Enz"), this);
      adMenu->addAction(mEnz);
      adMenu->addSeparator();
-     mEnz->setStatusTip(tr("Уровни энергии как функция деформации потенциала z"));
+     mEnz->setStatusTip(tr("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ z"));
 
      QAction *mQE = new QAction(tr("qa(E)"), this);
      adMenu->addAction(mQE);
      adMenu->addSeparator();
-     mQE->setStatusTip(tr("Закон дисперсии в периодическом поле"));
+     mQE->setStatusTip(tr("пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ"));
 
      QAction *mEG = new QAction(tr("B_{N+1}(E+iG)"), this);
      adMenu->addAction(mEG);
      adMenu->addSeparator();
-     mEG->setStatusTip(tr("Квазистационарные сост. на пл. E+iG, нули Re и Im B_{N+1}" ));
+     mEG->setStatusTip(tr("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ. пїЅпїЅ пїЅпїЅ. E+iG, пїЅпїЅпїЅпїЅ Re пїЅ Im B_{N+1}" ));
 
      connect(mTZ, SIGNAL(triggered()), this, SLOT(window_TZ()));
      connect(mEnz, SIGNAL(triggered()), this, SLOT(window_Enz()));
@@ -299,7 +299,7 @@ void MainWindow::initMenuBar()
      addToolBar(bcTool);
      QAction *bcAc = new QAction(tr("Model"), bcTool);
      bcTool->addAction(bcAc);
-     bcAc->setToolTip(tr("Граничные условия"));
+     bcAc->setToolTip(tr("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ"));
      connect(bcAc, SIGNAL(triggered()), this, SLOT(slotSetBD()));
 
      QToolBar *uTool = new QToolBar;
@@ -308,7 +308,7 @@ void MainWindow::initMenuBar()
      QAction *uMulti = new QAction(tr("Un"), uTool);
      uTool->addAction(uMulti);
      uTool->addSeparator();
-     uMulti->setToolTip(tr("Потенциал из одинаковых ям/барьеров"));
+     uMulti->setToolTip(tr("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ/пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"));
 //     uMulti->setToolTip("Multi-well/barrier potential");
      connect(uMulti, SIGNAL(triggered()), this, SLOT(slotSetUmwb()));
 
@@ -316,7 +316,7 @@ void MainWindow::initMenuBar()
      addToolBar(EnTool);
      QAction *EnAction = new QAction(tr("En"), EnTool);
      EnTool->addAction(EnAction);
-     EnAction->setToolTip(tr("Таблица уровней энергии En"));
+     EnAction->setToolTip(tr("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ En"));
 //   EnAction->setToolTip("Values of energy levels En");
      connect(EnAction, SIGNAL(triggered()), this, SLOT(slotSetEn()));
 
@@ -324,7 +324,7 @@ void MainWindow::initMenuBar()
      addToolBar(EquasiTool);
      QAction *EquasiAction = new QAction(tr("(E+iG)n"), EquasiTool);
      EquasiTool->addAction(EquasiAction);
-     EquasiAction->setToolTip(tr("Таблица энергий квазистац. состояний"));
+     EquasiAction->setToolTip(tr("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"));
 //   EnAction->setToolTip("Values of energy levels En");
      connect(EquasiAction, SIGNAL(triggered()), this, SLOT(slotSetEquasi()));
 
@@ -332,7 +332,7 @@ void MainWindow::initMenuBar()
      addToolBar(U1Tool);
      QAction *U1Action = new QAction(tr("U1"), U1Tool);
      U1Tool->addAction(U1Action);
-     U1Action->setToolTip(tr("Начальный потенциал"));
+     U1Action->setToolTip(tr("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"));
 //     U1Action->setToolTip("Initial Potential");
      connect(U1Action, SIGNAL(triggered()), model, SLOT(slotU1()));
 
@@ -340,7 +340,7 @@ void MainWindow::initMenuBar()
      addToolBar(U2Tool);
      QAction *U2Action = new QAction(tr("U2"), U2Tool);
      U2Tool->addAction(U2Action);
-     U2Action->setToolTip(tr("Конечный потенциал"));
+     U2Action->setToolTip(tr("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"));
 //   U2Action->setToolTip("Final Potential");
      connect(U2Action, SIGNAL(triggered()), model, SLOT(slotU2()));
 
@@ -348,26 +348,26 @@ void MainWindow::initMenuBar()
      addToolBar(ubiasTool);
      QAction *ubiasAc = new QAction(tr("Ubias"), ubiasTool);
      ubiasTool->addAction(ubiasAc);
-     ubiasAc->setToolTip(tr("Падение напряжения"));
+     ubiasAc->setToolTip(tr("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"));
      connect(ubiasAc, SIGNAL(triggered()), this, SLOT(slotSetUlinear()));
 
      QToolBar *widthLineTool = new QToolBar;
      addToolBar(widthLineTool);
      QAction *widthLineAc = new QAction(tr("Settings"), widthLineTool);
      widthLineTool->addAction(widthLineAc);
-     widthLineAc->setToolTip(tr("Толщина линий в пикселах"));
+     widthLineAc->setToolTip(tr("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"));
      connect(widthLineAc, SIGNAL(triggered()), this, SLOT(slotSetting()));
 }
 #include "Version.h"
 void MainWindow::about()
 {
-    QMessageBox::about(this, tr("О программе Квант"),
-        tr("<p><b>Квант " KVANT_VERSION_STRING "</b></p>"
-        "<p>Учебная программа по квантовой механике.</p>" 
-        "<p>Авторы: О.А.Ткаченко, В.А.Ткаченко, Г.Л.Коткин</p>"
-        "<p>Сайт программы: <a href='http://sourceforge.net/projects/quantx'>"
+    QMessageBox::about(this, tr("пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ"),
+        tr("<p><b>пїЅпїЅпїЅпїЅпїЅ " KVANT_VERSION_STRING "</b></p>"
+        "<p>пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.</p>" 
+        "<p>пїЅпїЅпїЅпїЅпїЅпїЅ: пїЅ.пїЅ.пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅ.пїЅ.пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅ.пїЅ.пїЅпїЅпїЅпїЅпїЅпїЅ</p>"
+        "<p>пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: <a href='http://sourceforge.net/projects/quantx'>"
         "http://sourceforge.net/projects/quantx</a></p>"
-        "<p>Для чтения документации требуется <a href='http://get.adobe.com/reader/'>Acrobat Reader X</a></p>"
+        "<p>пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ <a href='http://get.adobe.com/reader/'>Acrobat Reader X</a></p>"
         ));
 }
 
@@ -561,8 +561,8 @@ void  MainWindow::slotSetUmwb()
 void MainWindow::updateMouseMovedTo(QPointF f)
 {
     QString x,y;
-    x.sprintf("x=%lg",f.x());
-    y.sprintf("y=%lg",f.y());
+    x = QString::asprintf("x=%lg",f.x());
+    y = QString::asprintf("y=%lg",f.y());
     this->mouseAtX->setText(x);
     this->mouseAtY->setText(y);
 }
@@ -2189,47 +2189,47 @@ void MainWindow::writeToXml(QXmlStreamWriter *w)
         QRect g;
 /*        QPoint psn;
         psn= this->pos();
-        s.sprintf("%i %i",psn.x(),psn.y());
+        s = QString::asprintf("%i %i",psn.x(),psn.y());
         w->writeTextElement("MainWindowpos",s);
 
         g = this->geometry();
-        s.sprintf("%i %i %i %i",g.left(),g.top(),g.width(),g.height());
+        s = QString::asprintf("%i %i %i %i",g.left(),g.top(),g.width(),g.height());
         w->writeTextElement("MainWindowgeometry",s);
 
         psn= this->teWidget->pos();
-        s.sprintf("%i %i",psn.x(),psn.y());
+        s = QString::asprintf("%i %i",psn.x(),psn.y());
         w->writeTextElement("TEpos",s);
         g = this->teWidget->geometry();
-        s.sprintf("%i %i %i %i",g.left(),g.top(),g.width(),g.height());
+        s = QString::asprintf("%i %i %i %i",g.left(),g.top(),g.width(),g.height());
         w->writeTextElement("TEgeometry",s);*/
-        s.sprintf("%i",this->uxWidget->isVisible() ? 1 : 0);
+        s = QString::asprintf("%i",this->uxWidget->isVisible() ? 1 : 0);
         w->writeTextElement("UXisVisible",s);
 
-        s.sprintf("%i",this->waveFunctionWidget->isVisible() ? 1 : 0);
+        s = QString::asprintf("%i",this->waveFunctionWidget->isVisible() ? 1 : 0);
         w->writeTextElement("PsiXisVisible",s);
 
-        s.sprintf("%i",this->wavePacketXWidget->isVisible() ? 1 : 0);
+        s = QString::asprintf("%i",this->wavePacketXWidget->isVisible() ? 1 : 0);
         w->writeTextElement("PsiXTisVisible",s);
 
-        s.sprintf("%i",this->momentumDistibutionWidget->isVisible() ? 1 : 0);
+        s = QString::asprintf("%i",this->momentumDistibutionWidget->isVisible() ? 1 : 0);
         w->writeTextElement("PhiKisVisible",s);
 
-        s.sprintf("%i",this->wavePacketKWidget->isVisible() ? 1 : 0);
+        s = QString::asprintf("%i",this->wavePacketKWidget->isVisible() ? 1 : 0);
         w->writeTextElement("PhiKTisVisible",s);
 
-        s.sprintf("%i",this->teWidget->isVisible() ? 1 : 0);
+        s = QString::asprintf("%i",this->teWidget->isVisible() ? 1 : 0);
         w->writeTextElement("TEisVisible",s);
 
-        s.sprintf("%i",this->tzWidget->isVisible() ? 1 : 0);
+        s = QString::asprintf("%i",this->tzWidget->isVisible() ? 1 : 0);
         w->writeTextElement("TZisVisible",s);
 
-        s.sprintf("%i",this->enzWidget->isVisible() ? 1 : 0);
+        s = QString::asprintf("%i",this->enzWidget->isVisible() ? 1 : 0);
         w->writeTextElement("EnzisVisible",s);
 
-        s.sprintf("%i",this->qeWidget->isVisible() ? 1 : 0);
+        s = QString::asprintf("%i",this->qeWidget->isVisible() ? 1 : 0);
         w->writeTextElement("QEisVisible",s);
 
-        s.sprintf("%i",this->egWidget->isVisible() ? 1 : 0);
+        s = QString::asprintf("%i",this->egWidget->isVisible() ? 1 : 0);
         w->writeTextElement("EGisVisible",s);
     }
     w->writeEndElement();
@@ -2327,7 +2327,7 @@ bool MainWindow::openFile()
                 tr("Warning"),
                 reader.errorString(),
                 "Ok",
-                QString::null,
+                QString(),
                 0,
                 1);
         }

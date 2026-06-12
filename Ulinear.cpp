@@ -70,7 +70,7 @@ void Ulinear::modelChanged()
     Ubiaslast=-1;
 
     QString buf;
-    buf.sprintf("%lg",Ubias);
+    buf = QString::asprintf("%lg",Ubias);
     this->leUBias->setText(buf);
 }
 

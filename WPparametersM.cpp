@@ -95,11 +95,11 @@ void WPparametersM::modelChanged()
     last.nmin = -1;
 
     QString buf;
-    buf.sprintf("%i",wp.nmin);
+    buf = QString::asprintf("%i",wp.nmin);
     this->leNmin->setText(buf);
-    buf.sprintf("%i",wp.nmax);
+    buf = QString::asprintf("%i",wp.nmax);
     this->leNmax->setText(buf);
-    buf.sprintf("%i",wp.hn);
+    buf = QString::asprintf("%i",wp.hn);
     this->leHn->setText(buf);
 }
 

@@ -34,6 +34,6 @@ PlotterDialog::PlotterDialog(QWidget *parent, Qt::WindowFlags flags)
 void PlotterDialog::processInfoMouseMovedTo(QPointF p)
 {
     QString s;
-    s.sprintf("x=%lg y=%lg",p.x(),p.y());
+    s = QString::asprintf("x=%lg y=%lg",p.x(),p.y());
     label->setText(s);
 }

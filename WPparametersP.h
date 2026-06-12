@@ -26,7 +26,7 @@ class WPparametersP : public QDialog
 {
     Q_OBJECT
 public:
-    WPparametersP(QWidget *parent = 0, Qt::WindowFlags f = 0);
+    WPparametersP(QWidget *parent = 0, Qt::WindowFlags f = Qt::WindowFlags());
     ~WPparametersP(void);
 
     void setModel(PhysicalModel*);

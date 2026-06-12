@@ -20,7 +20,7 @@
 #include "WavePacketKView.h"
 #include <QGraphicsView>
 #include <QMouseEvent>
-#include <QMatrix>
+#include <QTransform>
 #include <QGraphicsItem>
 #include <QGraphicsScene>
 #include <QRectF>
@@ -98,8 +98,8 @@ void WavePacketKView::setViewportMapping()
         qreal m22 = - a.height() / b.height();
         qreal dx = - m11 * a.x();
         qreal dy = - m22 * (a.y() + a.height());
-        QMatrix m(m11,0,0,m22,dx,dy);
-        this->setMatrix(m);
+        QTransform m(m11,0,0,m22,dx,dy);
+        this->setTransform(m);
         scene()->update(scene()->sceneRect());
      QRectF   sr = scene()->sceneRect();
     update();
@@ -117,8 +117,8 @@ void WavePacketKView::setViewportMapping()
         qreal m22 = - a.height() / b.height();
         qreal dx = - m11 * a.x();
         qreal dy = - m22 * (a.y() + a.height());
-        QMatrix m(m11,0,0,m22,dx,dy);
-        this->setMatrix(m);
+        QTransform m(m11,0,0,m22,dx,dy);
+        this->setTransform(m);
         scene()->update(scene()->sceneRect());
         sr = scene()->sceneRect();
     }
@@ -138,11 +138,11 @@ void WavePacketKView::mouseMoveEvent(QMouseEvent *e)
 }
 void WavePacketKView::wheelEvent(QWheelEvent *event)
 {
-    scaleView(pow((double)2, -event->delta() / 240.0));
+    scaleView(pow((double)2, -event->angleDelta().y() / 240.0));
 }
 void WavePacketKView::scaleView(qreal scaleFactor)
 {
-    qreal factor = matrix().scale(scaleFactor, scaleFactor).mapRect(QRectF(0, 0, 1, 1)).width();
+    qreal factor = transform().scale(scaleFactor, scaleFactor).mapRect(QRectF(0, 0, 1, 1)).width();
     if (factor < 0.007 || factor > 1000)
         return;
 

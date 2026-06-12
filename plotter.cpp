@@ -240,11 +240,10 @@ QSize Plotter::sizeHint() const
 }
 void Plotter::paintEvent(QPaintEvent *event)
 {
-    QVector<QRect> rects = event->region().rects();
     QPainter painter(this);
 //    PlotSettings settings = zoomStack[curZoom];
-   for(int i=0; i<(int)rects.size();++i)
-        painter.drawImage(rects[i].topLeft(), pixmap.toImage(), rects[i]);
+    for (const QRect &rect : event->region())
+        painter.drawImage(rect.topLeft(), pixmap.toImage(), rect);
     if(rubberBandIsShown)
     {
         painter.setPen(palette().light().color());//was 2!!!!
@@ -296,7 +295,7 @@ void Plotter::mouseMoveEvent(QMouseEvent *event)
     }
 }
 
-void Plotter::enterEvent ( QEvent * event )
+void Plotter::enterEvent ( QEnterEvent * event )
 {
     setFocus();
     QWidget::enterEvent(event);
@@ -371,9 +370,9 @@ void Plotter::keyPressEvent(QKeyEvent *event)
 }
 void Plotter::wheelEvent(QWheelEvent *event)
 {
-    int numDegrees = event->delta()/8;
+    int numDegrees = event->angleDelta().y()/8;
     int numTicks = numDegrees / 15;
-    if(event->orientation() == Qt::Horizontal)
+    if(event->angleDelta().x() != 0)
         zoomStack[curZoom].scroll(numTicks,0);
     else
         zoomStack[curZoom].scroll(0, numTicks);
@@ -391,7 +390,7 @@ void Plotter::refreshPixmap()
 {
     pixmap = QPixmap(size());
 //    pixmap.setMask ( const QBitmap & mask )
-    pixmap.fill(this,0,0);
+    pixmap.fill(palette().window().color());
     QPainter painter(&pixmap);
     drawGrid(&painter);
     drawCurves(&painter);
@@ -583,12 +582,12 @@ bool Plotter::savePlot()
             "\n Do you want to rewrite it?",
             "Yes",
             "No",
-            QString::null,
+            QString(),
             0,
             1
             );
         if(n){
-           return this->savePlotAs(); //выбираем новое имя
+           return this->savePlotAs(); //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ
         }
     }
     //Saving the file!
@@ -603,7 +602,7 @@ bool Plotter::savePlot()
         int id = it->first;
 //      o<<"Curve%i"<<id<<'\n';
         QString s;
-        s.sprintf("Curve %i\n",id);
+        s = QString::asprintf("Curve %i\n",id);
         o << s;
         const CurveData &data = it->second;
 //        int numPoints=0;
@@ -614,11 +613,11 @@ bool Plotter::savePlot()
             double x = data[2*i];
             double y = data[2*i+1];
             QString s;
-            s.sprintf("%-14.7lg %lg\n",x,y);
+            s = QString::asprintf("%-14.7lg %lg\n",x,y);
             o << s;
             }
 
-         s.sprintf("\n");
+         s = QString::asprintf("\n");
          o<< s;
             ++it;
     }

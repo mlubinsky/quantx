@@ -19,7 +19,7 @@
 
 #include <QGraphicsView>
 #include <QMouseEvent>
-#include <QMatrix>
+#include <QTransform>
 #include <QGraphicsItem>
 #include <QGraphicsScene>
 #include <QRectF>
@@ -101,7 +101,7 @@ public:
         QRect vpr = view->viewport()->rect();
         QPointF vpr1 = view->mapToScene(vpr.topLeft());
         QPointF vpr2 = view->mapToScene(vpr.bottomRight());
-        QMatrix m = view->matrix();
+        QTransform m = view->transform();
         QRectF aa=QRectF(QPointF(),p2).adjusted(-ax,-ay,ax,ay);
         return aa;///QRectF(QPointF(),p2).adjusted(-ax,-ay,ax,ay);
     }
@@ -236,8 +236,8 @@ void TransmissionView::setViewportMapping()
         qreal m22 = - a.height() / b.height();
         qreal dx = - m11 * a.x();
         qreal dy = - m22 * (a.y() + a.height());
-        QMatrix m(m11,0,0,m22,dx,dy);
-        this->setMatrix(m);
+        QTransform m(m11,0,0,m22,dx,dy);
+        this->setTransform(m);
         scene()->update(scene()->sceneRect());
     }
     update();
@@ -251,11 +251,11 @@ void TransmissionView::resizeEvent(QResizeEvent *)
 
 void TransmissionView::wheelEvent(QWheelEvent *event)
 {
-    scaleView(pow((double)2, -event->delta() / 240.0));
+    scaleView(pow((double)2, -event->angleDelta().y() / 240.0));
 }
 void TransmissionView::scaleView(qreal scaleFactor)
 {
-    qreal factor = matrix().scale(scaleFactor, scaleFactor).mapRect(QRectF(0, 0, 1, 1)).width();
+    qreal factor = transform().scale(scaleFactor, scaleFactor).mapRect(QRectF(0, 0, 1, 1)).width();
     if (factor < 0.007 || factor > 1000)
         return;
 
@@ -584,7 +584,7 @@ void TransmissionView::initDialogScaleY()
         h->addWidget(this->leHE = new QLineEdit(this));
         this->leHE->setToolTip("E-increment");
         QString x;
-        x.sprintf("%lg",this->hE);
+        x = QString::asprintf("%lg",this->hE);
         this->leHE->setText(x);
         connect(this->leHE,SIGNAL(editingFinished()),this,SLOT(updateScaleTE()));
         vl->addWidget(line);
@@ -595,7 +595,7 @@ void TransmissionView::initDialogScaleY()
         h->addWidget(new QLabel("Emin",this));
         h->addWidget(this->leEmin= new QLineEdit(this));
         QString x;
-        x.sprintf("%lg",this->Emin);
+        x = QString::asprintf("%lg",this->Emin);
         this->leEmin->setText(x);
         this->leEmin->setToolTip("Lower value of E-interval");
         connect(this->leEmin,SIGNAL(editingFinished()),this,SLOT(updateScaleTE()));
@@ -607,7 +607,7 @@ void TransmissionView::initDialogScaleY()
         h->addWidget(new QLabel("Emax",this));
         h->addWidget(this->leEmax= new QLineEdit(this));
         QString x;
-        x.sprintf("%lg",this->Emax);
+        x = QString::asprintf("%lg",this->Emax);
         this->leEmax->setText(x);
         this->leEmax->setToolTip("High value of E-interval");
         connect(this->leEmax,SIGNAL(editingFinished()),this,SLOT(updateScaleTE()));
@@ -619,7 +619,7 @@ void TransmissionView::initDialogScaleY()
         h->addWidget(new QLabel("Tmin",this));
         h->addWidget(this->leTmin= new QLineEdit(this));
         QString x;
-        x.sprintf("%lg",this->tMin);
+        x = QString::asprintf("%lg",this->tMin);
         this->leTmin->setText(x);
         //        this->leTmin->setToolTip("Lower value of E-interval");
         connect(this->leTmin,SIGNAL(editingFinished()),this,SLOT(updateScaleTE()));
@@ -631,7 +631,7 @@ void TransmissionView::initDialogScaleY()
         h->addWidget(new QLabel("Tmax",this));
         h->addWidget(this->leTmax= new QLineEdit(this));
         QString x;
-        x.sprintf("%lg",this->tMax);
+        x = QString::asprintf("%lg",this->tMax);
         this->leTmax->setText(x);
         //        this->leTmax->setToolTip("High value of E-interval");
         connect(this->leTmax,SIGNAL(editingFinished()),this,SLOT(updateScaleTE()));
@@ -649,15 +649,15 @@ void TransmissionView::showDialogScaleY()
 void TransmissionView::setScaleTE()
 {
     QString x;
-    x.sprintf("%lg",this->hE);
+    x = QString::asprintf("%lg",this->hE);
     this->leHE->setText(x);
-    x.sprintf("%lg",this->Emin);
+    x = QString::asprintf("%lg",this->Emin);
     this->leEmin->setText(x);
-    x.sprintf("%lg",this->Emax);
+    x = QString::asprintf("%lg",this->Emax);
     this->leEmax->setText(x);
-    x.sprintf("%lg",this->tMax);
+    x = QString::asprintf("%lg",this->tMax);
     this->leTmax->setText(x);
-    x.sprintf("%lg",this->tMin);
+    x = QString::asprintf("%lg",this->tMin);
      this->leTmin->setText(x);
     emit(signalScaleTEChanged());
 
@@ -980,21 +980,21 @@ void TEWidget::writeToXml(QXmlStreamWriter *w)
         QString s;
 /*        QPoint psn= this->transmissionView->pos();
         QRect g = this->transmissionView->geometry();
-        s.sprintf("%i %i %i %i",g.left(),g.top(),g.width(),g.height());
+        s = QString::asprintf("%i %i %i %i",g.left(),g.top(),g.width(),g.height());
         w->writeTextElement("geometry",s);*/
-        s.sprintf("%i",transmissionView->isVisible() ? 1 : 0);
+        s = QString::asprintf("%i",transmissionView->isVisible() ? 1 : 0);
         w->writeTextElement("TEViewisVisible",s);
-//        s.sprintf("%i %i",psn.x(),psn.y());
+//        s = QString::asprintf("%i %i",psn.x(),psn.y());
 //        w->writeTextElement("pos",s);
-        s.sprintf("%lg",transmissionView->Emin);
+        s = QString::asprintf("%lg",transmissionView->Emin);
         w->writeTextElement("Emin",s);
-        s.sprintf("%lg",transmissionView->Emax);
+        s = QString::asprintf("%lg",transmissionView->Emax);
         w->writeTextElement("Emax",s);
-        s.sprintf("%lg",transmissionView->hE);
+        s = QString::asprintf("%lg",transmissionView->hE);
         w->writeTextElement("hE",s);
-        s.sprintf("%lg",transmissionView->tMin);
+        s = QString::asprintf("%lg",transmissionView->tMin);
         w->writeTextElement("Tmin",s);
-        s.sprintf("%lg",transmissionView->tMax);
+        s = QString::asprintf("%lg",transmissionView->tMax);
         w->writeTextElement("Tmax",s);
     }
     w->writeEndElement();

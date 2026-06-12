@@ -70,7 +70,7 @@ void ProgramSetting::modelChanged()
     last.lineWidth = -1;
 
     QString buf;
-    buf.sprintf("%i",wp.lineWidth);
+    buf = QString::asprintf("%i",wp.lineWidth);
     this->leLineWidth->setText(buf);
 }
 

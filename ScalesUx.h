@@ -26,7 +26,7 @@ class ScalesUx : public QDialog
 {
     Q_OBJECT
 public:
-    ScalesUx(QWidget *parent = 0, Qt::WindowFlags f = 0);
+    ScalesUx(QWidget *parent = 0, Qt::WindowFlags f = Qt::WindowFlags());
     ~ScalesUx(void);
 
     void setModel(PhysicalModel*);

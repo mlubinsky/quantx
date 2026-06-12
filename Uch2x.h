@@ -26,7 +26,7 @@ class Uch2x : public QDialog
 {
     Q_OBJECT
 public:
-    Uch2x(QWidget *parent = 0, Qt::WindowFlags f = 0);
+    Uch2x(QWidget *parent = 0, Qt::WindowFlags f = Qt::WindowFlags());
     ~Uch2x(void);
 
     void setModel(PhysicalModel*);
